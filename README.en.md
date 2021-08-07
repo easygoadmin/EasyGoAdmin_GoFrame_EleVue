@@ -1,7 +1,7 @@
-# EasyGoAdmin
+# GoAdmin_Pro
 
 #### Description
-是一款基于Golang、GoFrame、Layui、MySQL等技术栈开发平台框架，拥有完善的(RBAC)权限架构和基础核心管理模块，为了缩短研发周期，系统框架集成了代码生成器，内置平台自定义研发的模板引擎，可以一键CRUD生成整个模块的全部代码，可以用户个人项目、公司项目以及客户定制化项目，本框架为一站式系统框架开发平台，可以帮助开发者提升开发效率、降低研发成本，同时便于后期的系统维护升级。
+{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
 
 #### Software Architecture
 Software architecture description

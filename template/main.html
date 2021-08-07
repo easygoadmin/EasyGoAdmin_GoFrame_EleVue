@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>工作台</title>
+    <link rel="stylesheet" href="/resource/assets/libs/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/resource/assets/module/admin.css?v=318"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        /** 应用快捷块样式 */
+        .console-app-group {
+            padding: 16px;
+            border-radius: 4px;
+            text-align: center;
+            background-color: #fff;
+            cursor: pointer;
+            display: block;
+        }
+
+        .console-app-group .console-app-icon {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            margin-bottom: 6px;
+            display: inline-block;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            font-size: 32px;
+            color: #69c0ff;
+        }
+
+        .console-app-group:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, .08);
+        }
+
+        /** //应用快捷块样式 */
+
+        /** 小组成员 */
+        .console-user-group {
+            position: relative;
+            padding: 10px 0 10px 60px;
+        }
+
+        .console-user-group .console-user-group-head {
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .console-user-group .layui-badge {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            margin-top: -10px;
+        }
+
+        .console-user-group .console-user-group-name {
+            line-height: 1.2;
+        }
+
+        .console-user-group .console-user-group-desc {
+            color: #8c8c8c;
+            line-height: 1;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /** 卡片轮播图样式 */
+        .admin-carousel .layui-carousel-ind {
+            position: absolute;
+            top: -41px;
+            text-align: right;
+        }
+
+        .admin-carousel .layui-carousel-ind ul {
+            background: 0 0;
+        }
+
+        .admin-carousel .layui-carousel-ind li {
+            background-color: #e2e2e2;
+        }
+
+        .admin-carousel .layui-carousel-ind li.layui-this {
+            background-color: #999;
+        }
+
+        /** 广告位轮播图 */
+        .admin-news .layui-carousel-ind {
+            height: 45px;
+        }
+
+        .admin-news a {
+            display: block;
+            line-height: 70px;
+            text-align: center;
+        }
+
+        /** 最新动态时间线 */
+        .layui-timeline-dynamic .layui-timeline-item {
+            padding-bottom: 0;
+        }
+
+        .layui-timeline-dynamic .layui-timeline-item:before {
+            top: 16px;
+        }
+
+        .layui-timeline-dynamic .layui-timeline-axis {
+            width: 9px;
+            height: 9px;
+            left: 1px;
+            top: 7px;
+            background-color: #cbd0db;
+        }
+
+        .layui-timeline-dynamic .layui-timeline-axis.active {
+            background-color: #0c64eb;
+            box-shadow: 0 0 0 2px rgba(12, 100, 235, .3);
+        }
+
+        .dynamic-card-body {
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .dynamic-card-body:hover {
+            overflow-y: auto;
+            padding-right: 9px;
+        }
+
+        /** 优先级徽章 */
+        .layui-badge-priority {
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            line-height: 18px;
+            border-width: 2px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<!-- 正文开始 -->
+<div class="layui-fluid ew-console-wrapper">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    访问量<span class="layui-badge layui-badge-green pull-right">日</span>
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font">120,985</p>
+                    <p>总访问量<span class="pull-right">13279 万</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    销售额<span class="layui-badge layui-badge-blue pull-right">月</span>
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font"><span style="font-size: 26px;line-height: 1;">¥</span>28,687</p>
+                    <p>总销售额<span class="pull-right">1298 万</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    订单量<span class="layui-badge layui-badge-red pull-right">周</span>
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font">8,768</p>
+                    <p>转化率<span class="pull-right">90%</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    新增会员
+                    <span class="icon-text pull-right" lay-tips="指标说明" lay-direction="4" lay-offset="5px,5px">
+                        <i class="layui-icon layui-icon-tips"></i>
+                    </span>
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font">1297 <span style="font-size: 24px;line-height: 1;">位</span></p>
+                    <p>总会员<span class="pull-right">242354 人</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 快捷方式 -->
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm6" style="padding-bottom: 0;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/user/index" ew-title="系统用户">
+                        <i class="console-app-icon layui-icon layui-icon-group"
+                           style="font-size: 26px;padding-top: 3px;margin-right: 6px;"></i>
+                        <div class="console-app-name">系统用户</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/analysis/index" ew-title="统计分析">
+                        <i class="console-app-icon layui-icon layui-icon-chart" style="color: #95de64;"></i>
+                        <div class="console-app-name">统计分析</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/member/index" ew-title="会员中心">
+                        <i class="console-app-icon layui-icon layui-icon-cart" style="color: #ff9c6e;"></i>
+                        <div class="console-app-name">会员中心</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/city/index" ew-title="行政区划">
+                        <i class="console-app-icon layui-icon layui-icon-form"
+                           style="color: #b37feb;font-size: 30px;"></i>
+                        <div class="console-app-name">行政区划</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6" style="padding-bottom: 0;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/link/index" ew-title="友链管理">
+                        <i class="console-app-icon layui-icon layui-icon-layer"
+                           style="color: #ffd666;font-size: 34px;"></i>
+                        <div class="console-app-name">友链管理</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/notice/index" ew-title="通知公告">
+                        <i class="console-app-icon layui-icon layui-icon-email"
+                           style="color: #5cdbd3;font-size: 36px;"></i>
+                        <div class="console-app-name">通知公告</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/dict/index" ew-title="字典管理">
+                        <i class="console-app-icon layui-icon layui-icon-note"
+                           style="color: #ff85c0;font-size: 28px;"></i>
+                        <div class="console-app-name">字典管理</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm3">
+                    <div class="console-app-group" ew-href="/config/index" ew-title="配置管理">
+                        <i class="console-app-icon layui-icon layui-icon-slider" style="color: #ffc069;"></i>
+                        <div class="console-app-name">配置管理</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8 layui-col-sm6">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">最新动态</div>
+                        <div class="layui-card-body dynamic-card-body mini-bar" style="height: 265px;" id="statistics9">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">我的任务</div>
+                        <div class="layui-card-body" style="height: 265px;" id="statistics8">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">项目进度</div>
+                        <div class="layui-card-body" style="height: 300px;" id="statistics5">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4 layui-col-sm6">
+            <div class="layui-card">
+                <div class="layui-card-header">版本信息</div>
+                <div class="layui-card-body">
+                    <table class="layui-table layui-text">
+                        <colgroup>
+                            <col width="90">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <script type="text/html" ew-tpl>
+                            <tr>
+                                <td>当前版本</td>
+                                <td>v1.0.0 &emsp; <a href="http://docs.goframe.layui.easygoadmin.vip" target="_blank">在线文档</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>基于框架</td>
+                                <td>Golang、GoFrame、Layui、MySQL</td>
+                            </tr>
+                        </script>
+                        <tr>
+                            <td>主要特色</td>
+                            <td>组件式 / 响应式 / 简约 / 易上手</td>
+                        </tr>
+                        <tr>
+                            <td>获取渠道</td>
+                            <td>
+                                <a href="tencent://message/?uin=1175401194" class="layui-btn layui-btn-sm layui-btn-danger"
+                                   target="_blank">在线咨询</a>
+                                <a href="http://www.easygoadmin.vip" target="_blank" class="layui-btn layui-btn-sm">获取授权</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">友情链接</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel admin-carousel admin-news" id="workplaceNewsCarousel">
+                        <div carousel-item>
+                            <div>
+                                <a href="http://www.javaweb.vip" target="_blank"
+                                   style="color:#fff;background-color: #009688;background-image: linear-gradient(to right,#009688,#5fb878);">
+                                    JavaWeb 一款Java语言基于SpringBoot2.x、SpringCloud、Layui、Vue打造的企业级开发框架
+                                </a>
+                            </div>
+                            <div>
+                                <a href="http://www.easypython.vip" target="_blank"
+                                   style="color:#fff;background-color: #009fde;background-image: linear-gradient(to right,#009fde,#00beff);">
+                                    EasyPython 一款Python语言基于Django、Layui、Vue等框架研发的快速开发脚手架</a>
+                            </div>
+                            <div>
+                                <a href="http://www.easycsharp.vip/" target="_blank"
+                                   style="color:#fff;background-color: #34363f;background-image: linear-gradient(to right,#34363f,#676c7c);">
+                                    EasyCSharp 一款基于.NET语言和Layui、Vue、ElementUI、AntDesign等研发敏捷开发框架</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">小组成员</div>
+                <div class="layui-card-body" style="height: 300px;" id="statistics1">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- js部分 -->
+<script type="text/javascript" src="/resource/assets/libs/layui/layui.js"></script>
+<script type="text/javascript" src="/resource/assets/js/common.js?v=318"></script>
+<script type="text/javascript" src="/resource/assets/libs/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/resource/assets/libs/echarts/theme/macarons.js"></script>
+<script type="text/javascript" src="/resource/module/easygoadmin_main.js?v=318"></script>
+<script>
+    layui.use(['layer', 'carousel', 'element'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var carousel = layui.carousel;
+        var device = layui.device();
+
+        // 渲染轮播
+        carousel.render({
+            elem: '#workplaceNewsCarousel',
+            width: '100%',
+            height: '70px',
+            arrow: 'none',
+            autoplay: true,
+            trigger: device.ios || device.android ? 'click' : 'hover',
+            anim: 'fade'
+        });
+
+    });
+</script>
+</body>
+</html>
