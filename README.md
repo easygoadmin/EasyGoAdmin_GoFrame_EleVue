@@ -1,5 +1,5 @@
 ## 📚 项目介绍
-一款 Go 语言基于GoFrame、Layui、MySQL等框架精心打造的一款模块化、高性能、企业级的敏捷开发框架，本着简化开发、提升开发效率的初衷触发，框架自研了一套个性化的组件，实现了可插拔的组件式开发方式：单图上传、多图上传、下拉选择、开关按钮、单选按钮、多选按钮、图片裁剪等等一系列个性化、轻量级的组件，是一款真正意义上实现组件化开发的敏捷开发框架。
+一款 Go 语言基于GoFrame、Vue、ElementUI、MySQL等框架精心打造的一款模块化、高性能、企业级的敏捷开发框架，本着简化开发、提升开发效率的初衷触发，框架自研了一套个性化的组件，实现了可插拔的组件式开发方式：单图上传、多图上传、下拉选择、开关按钮、单选按钮、多选按钮、图片裁剪等等一系列个性化、轻量级的组件，是一款真正意义上实现组件化开发的敏捷开发框架。
 
 ## 🍻 项目特点
 
@@ -26,19 +26,19 @@
 + 通知公告：系统通知公告信息发布维护。
 + 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
 + 登录日志：系统登录日志记录查询包含登录异常。
-+ 代码生成：一键生成模块CRUD的功能，包括后端Go和前端HTML、JS等相关代码。
++ 代码生成：一键生成模块CRUD的功能，包括后端Go和前端Vue等相关代码。
 + 案例演示：常规代码生成器一键生成后的演示案例。
 
 ## 👷 开发者信息
-* 系统名称：EasyGoAdmin敏捷开发框架GoFrame+Layui版本
+* 系统名称：EasyGoAdmin敏捷开发框架GoFrame+EleVue版本
 * 作者：半城风雨
 * 作者QQ：[1175401194](http://wpa.qq.com/msgrd?v=3&amp;uin=1175401194&amp;site=qq&amp;menu=yes)
 * 官网网址：[http://www.easygoadmin.vip/](http://www.easygoadmin.vip/)
-* 文档网址：[http://docs.goframe.layui.easygoadmin.vip/](http://docs.goframe.layui.easygoadmin.vip/)
+* 文档网址：[http://docs.goframe.ele.easygoadmin.vip/](http://docs.goframe.ele.easygoadmin.vip/)
 
 ## 🎨 系统演示
 
-+ 演示地址：http://goframe.layui.rxthink.cn/login
++ 演示地址：http://goframe.elevue.rxthink.cn
 
 账号 | 密码| 操作权限
 ---|---|---
