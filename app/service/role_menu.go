@@ -20,7 +20,6 @@ import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils"
-	"easygoadmin/app/utils/convert"
 	"easygoadmin/app/utils/function"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/util/gconv"
@@ -49,9 +48,9 @@ func (s *roleMenuService) GetRoleMenuList(roleId int64) ([]model.RoleMenuInfo, e
 		for _, m := range menuList {
 			var info model.RoleMenuInfo
 			info.Id = m.Id
-			info.Name = m.Title
+			info.Title = m.Title
 			info.Open = true
-			info.Pid = m.ParentId
+			info.ParentId = m.ParentId
 			// 节点选中值
 			if function.InArray(gconv.String(m.Id), idList) {
 				info.Checked = true
@@ -66,17 +65,17 @@ func (s *roleMenuService) Save(req *model.RoleMenuSaveReq) error {
 	if utils.AppDebug() {
 		return gerror.New("演示环境，暂无权限操作")
 	}
-	itemArr := convert.ToInt64Array(req.MenuIds, ",")
+	itemArr := req.MenuIds
 	if len(itemArr) == 0 {
 		return gerror.New("请选择权限节点")
 	}
 	// 删除现有的角色权限数据
 	dao.RoleMenu.Delete("role_id=?", req.RoleId)
 	// 遍历创建新角色权限数据
-	for i := range itemArr {
+	for _, v := range itemArr {
 		var entity model.RoleMenu
 		entity.RoleId = req.RoleId
-		entity.MenuId = gconv.Int(itemArr[i])
+		entity.MenuId = v
 		dao.RoleMenu.Insert(entity)
 	}
 	// 批量插入

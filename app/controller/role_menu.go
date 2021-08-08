@@ -54,26 +54,24 @@ func (c *roleMenuCtl) Index(r *ghttp.Request) {
 }
 
 func (c *roleMenuCtl) Save(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.RoleMenuSaveReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用保存方法
-		err := service.RoleMenu.Save(req)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
+	var req *model.RoleMenuSaveReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "保存成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用保存方法
+	err := service.RoleMenu.Save(req)
+	if err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "保存成功",
+	})
 }
