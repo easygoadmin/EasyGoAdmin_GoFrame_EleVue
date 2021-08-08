@@ -17,12 +17,14 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/function"
 	"easygoadmin/app/utils/response"
+	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -31,6 +33,32 @@ import (
 var Index = new(indexCtl)
 
 type indexCtl struct{}
+
+// 获取系统菜单
+func (c *indexCtl) Menu(r *ghttp.Request) {
+	// Jwt获取用户ID
+	userId := 1
+	// 获取菜单列表
+	menuList := service.Menu.GetPermissionList(userId)
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "操作成功",
+		Data: menuList,
+	})
+}
+
+func (c *indexCtl) User(r *ghttp.Request) {
+	// 获取用户信息
+	userInfo, _ := dao.User.FindOne(1)
+	fmt.Println(userInfo)
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "操作成功",
+		Data: userInfo,
+	})
+}
 
 func (c *indexCtl) Index(r *ghttp.Request) {
 	if function.IsLogin(r.Session) {
@@ -56,7 +84,7 @@ func (c *indexCtl) Main(r *ghttp.Request) {
 
 // 个人中心
 func (c *indexCtl) UserInfo(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.UserInfoReq
 		if err := r.Parse(&req); err != nil {
@@ -91,7 +119,7 @@ func (c *indexCtl) UserInfo(r *ghttp.Request) {
 
 // 更新密码
 func (c *indexCtl) UpdatePwd(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.UpdatePwd
 		if err := r.Parse(&req); err != nil {

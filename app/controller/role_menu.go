@@ -54,7 +54,7 @@ func (c *roleMenuCtl) Index(r *ghttp.Request) {
 }
 
 func (c *roleMenuCtl) Save(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		var req *model.RoleMenuSaveReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{

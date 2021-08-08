@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,15 +28,6 @@ import (
 var Link = new(linkCtl)
 
 type linkCtl struct{}
-
-func (c *linkCtl) Index(r *ghttp.Request) {
-	// 模板渲染
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl":      "link/index.html",
-		"typeList":     common.LINK_TYPE_LIST,
-		"platformList": common.LINK_PLATFORM_LIST,
-	})
-}
 
 func (c *linkCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -69,44 +57,8 @@ func (c *linkCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *linkCtl) Edit(r *ghttp.Request) {
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 修改
-		info, err := dao.Link.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 友链图片
-		if info.Image != "" {
-			info.Image = utils.GetImageUrl(info.Image)
-		}
-
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":      "link/edit.html",
-			"info":         info,
-			"typeList":     common.LINK_TYPE_LIST,
-			"formList":     common.LINK_FORM_LIST,
-			"platformList": common.LINK_PLATFORM_LIST,
-		})
-	} else {
-		// 添加
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":      "link/edit.html",
-			"typeList":     common.LINK_TYPE_LIST,
-			"formList":     common.LINK_FORM_LIST,
-			"platformList": common.LINK_PLATFORM_LIST,
-		})
-	}
-}
-
 func (c *linkCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.LinkAddReq
 		if err := r.Parse(&req); err != nil {
@@ -134,7 +86,7 @@ func (c *linkCtl) Add(r *ghttp.Request) {
 }
 
 func (c *linkCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.LinkUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -162,7 +114,7 @@ func (c *linkCtl) Update(r *ghttp.Request) {
 }
 
 func (c *linkCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.LinkDeleteReq
 		if err := r.Parse(&req); err != nil {
@@ -190,7 +142,7 @@ func (c *linkCtl) Delete(r *ghttp.Request) {
 }
 
 func (c *linkCtl) Status(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		var req *model.LinkStatusReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{

@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,13 +28,6 @@ import (
 var Position = new(positionCtl)
 
 type positionCtl struct{}
-
-func (c *positionCtl) Index(r *ghttp.Request) {
-	// 模板渲染
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "position/index.html",
-	})
-}
 
 func (c *positionCtl) List(r *ghttp.Request) {
 	var req *model.PositionQueryReq
@@ -64,31 +54,8 @@ func (c *positionCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *positionCtl) Edit(r *ghttp.Request) {
-	id := r.GetQueryInt64("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.Position.FindOne("id=?", id)
-		if err != nil || info == nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "position/edit.html",
-			"info":    info,
-		})
-	} else {
-		// 添加
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "position/edit.html",
-		})
-	}
-}
-
 func (c *positionCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.PositionAddReq
 		if err := r.Parse(&req); err != nil {
@@ -114,7 +81,7 @@ func (c *positionCtl) Add(r *ghttp.Request) {
 }
 
 func (c *positionCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.PositionUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -140,7 +107,7 @@ func (c *positionCtl) Update(r *ghttp.Request) {
 }
 
 func (c *positionCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.PositionDeleteReq
 		if err := r.Parse(&req); err != nil {

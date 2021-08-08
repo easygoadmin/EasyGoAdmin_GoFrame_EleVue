@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,13 +28,6 @@ import (
 var City = new(cityCtl)
 
 type cityCtl struct{}
-
-func (c *cityCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "city/index.html",
-	})
-}
 
 func (c *cityCtl) List(r *ghttp.Request) {
 	// 参数
@@ -60,34 +50,8 @@ func (c *cityCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *cityCtl) Edit(r *ghttp.Request) {
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.City.FindOne("id=?", id)
-		if err != nil || info == nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":   "city/edit.html",
-			"info":      info,
-			"levelList": common.CITY_LEVEL,
-		})
-	} else {
-		// 添加
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "city/edit.html",
-		})
-	}
-}
-
 func (c *cityCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.CityAddReq
 		if err := r.Parse(&req); err != nil {
@@ -115,7 +79,7 @@ func (c *cityCtl) Add(r *ghttp.Request) {
 }
 
 func (c *cityCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.CityUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -143,7 +107,7 @@ func (c *cityCtl) Update(r *ghttp.Request) {
 }
 
 func (c *cityCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.CityDeleteReq
 		if err := r.Parse(&req); err != nil {
@@ -171,7 +135,7 @@ func (c *cityCtl) Delete(r *ghttp.Request) {
 }
 
 func (c *cityCtl) GetChilds(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.CityChildReq
 		if err := r.Parse(&req); err != nil {

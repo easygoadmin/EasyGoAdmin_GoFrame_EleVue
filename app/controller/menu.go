@@ -17,30 +17,19 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/gogf/gf/util/gutil"
 )
 
 var Menu = new(menuCtl)
 
 type menuCtl struct{}
 
-func (c *menuCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "menu/index.html",
-	})
-}
-
 func (c *menuCtl) List(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MenuQueryReq
 		if err := r.Parse(&req); err != nil {
@@ -61,58 +50,8 @@ func (c *menuCtl) List(r *ghttp.Request) {
 	}
 }
 
-func (c *menuCtl) Edit(r *ghttp.Request) {
-	// 获取菜单列表
-	menuTreeList, _ := service.Menu.GetTreeList()
-	// 数据源转换
-	menuList := service.Menu.MakeList(menuTreeList)
-
-	// 记录ID
-	id := r.GetQueryUint64("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.Menu.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 获取节点
-		funcList, _ := dao.Menu.Where("pid=? and type=1 and mark=1", id).All()
-		sortList := gutil.ListItemValuesUnique(&funcList, "Sort")
-
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":  "menu/edit.html",
-			"info":     info,
-			"typeList": common.MENU_TYPE_LIST,
-			"funcList": sortList,
-			"menuList": menuList,
-		})
-	} else {
-		// 添加
-
-		pid := r.GetInt("pid")
-		var info model.Menu
-		info.Pid = pid
-		info.Status = 1
-		info.Target = 1
-
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":  "menu/edit.html",
-			"info":     info,
-			"typeList": common.MENU_TYPE_LIST,
-			"funcList": make([]interface{}, 0),
-			"menuList": menuList,
-		})
-	}
-}
-
 func (c *menuCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MenuAddReq
 		if err := r.Parse(&req); err != nil {
@@ -140,7 +79,7 @@ func (c *menuCtl) Add(r *ghttp.Request) {
 }
 
 func (c *menuCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MenuUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -169,7 +108,7 @@ func (c *menuCtl) Update(r *ghttp.Request) {
 }
 
 func (c *menuCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MenuDeleteReq
 		if err := r.Parse(&req); err != nil {

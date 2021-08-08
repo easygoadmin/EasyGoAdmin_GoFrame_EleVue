@@ -49,9 +49,9 @@ func (s *roleMenuService) GetRoleMenuList(roleId int64) ([]model.RoleMenuInfo, e
 		for _, m := range menuList {
 			var info model.RoleMenuInfo
 			info.Id = m.Id
-			info.Name = m.Name
+			info.Name = m.Title
 			info.Open = true
-			info.Pid = m.Pid
+			info.Pid = m.ParentId
 			// 节点选中值
 			if function.InArray(gconv.String(m.Id), idList) {
 				info.Checked = true

@@ -38,7 +38,7 @@ type LoginReq struct {
 
 // 系统登录
 func (c *loginCtl) Login(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		var req *LoginReq
 
 		// 获取参数并验证

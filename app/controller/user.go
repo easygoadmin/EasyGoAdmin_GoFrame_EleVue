@@ -17,28 +17,17 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/gogf/gf/util/gutil"
 )
 
 // 控制器管理对象
 var User = new(userCtl)
 
 type userCtl struct{}
-
-func (c *userCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "user/index.html",
-	})
-}
 
 func (c *userCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -68,77 +57,8 @@ func (c *userCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *userCtl) Edit(r *ghttp.Request) {
-	// 获取职级
-	levelAll, _ := dao.Level.Where("status=1 and mark=1").All()
-	levelList := make(map[int]string, 0)
-	for _, v := range levelAll {
-		levelList[v.Id] = v.Name
-	}
-	// 获取岗位
-	positionAll, _ := dao.Position.Where("status=1 and mark=1").All()
-	positionList := make(map[int]string, 0)
-	for _, v := range positionAll {
-		positionList[v.Id] = v.Name
-	}
-	// 获取部门列表
-	deptData, _ := service.Dept.GetDeptTreeList()
-	deptList := service.Dept.MakeList(deptData)
-	// 获取角色
-	roleData, _ := dao.Role.Where("status=1 and mark=1").All()
-	roleList := make(map[int]string)
-	for _, v := range roleData {
-		roleList[v.Id] = v.Name
-	}
-
-	// 记录ID
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.User.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		var userInfo = model.UserInfoVo{}
-		userInfo.User = *info
-		// 头像
-		userInfo.Avatar = utils.GetImageUrl(info.Avatar)
-
-		// 角色ID
-		var userRoleList []model.UserRole
-		dao.UserRole.Where("user_id=?", utils.Uid(r.Session)).Structs(&userRoleList)
-		roleIds := gutil.ListItemValuesUnique(&userRoleList, "RoleId")
-		userInfo.RoleIds = roleIds
-
-		// 渲染模板
-		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-			"mainTpl":      "user/edit.html",
-			"info":         userInfo,
-			"genderList":   utils.GENDER_LIST,
-			"levelList":    levelList,
-			"positionList": positionList,
-			"deptList":     deptList,
-			"roleList":     roleList,
-		})
-	} else {
-		// 添加
-		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-			"mainTpl":      "user/edit.html",
-			"genderList":   utils.GENDER_LIST,
-			"levelList":    levelList,
-			"positionList": positionList,
-			"deptList":     deptList,
-			"roleList":     roleList,
-		})
-	}
-}
-
 func (c *userCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.UserAddReq
 		if err := r.Parse(&req); err != nil {
@@ -166,7 +86,7 @@ func (c *userCtl) Add(r *ghttp.Request) {
 }
 
 func (c *userCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.UserUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -194,7 +114,7 @@ func (c *userCtl) Update(r *ghttp.Request) {
 }
 
 func (c *userCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.UserDeleteReq
 		if err := r.Parse(&req); err != nil {
@@ -222,7 +142,7 @@ func (c *userCtl) Delete(r *ghttp.Request) {
 }
 
 func (c *userCtl) Status(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		var req *model.UserStatusReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{
@@ -246,7 +166,7 @@ func (c *userCtl) Status(r *ghttp.Request) {
 }
 
 func (c *userCtl) ResetPwd(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.UserResetPwdReq
 		if err := r.Parse(&req); err != nil {

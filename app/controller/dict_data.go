@@ -58,7 +58,7 @@ func (c *dictDataCtl) List(r *ghttp.Request) {
 }
 
 func (c *dictDataCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.DictDataAddReq
 		if err := r.Parse(&req); err != nil {
@@ -86,7 +86,7 @@ func (c *dictDataCtl) Add(r *ghttp.Request) {
 }
 
 func (c *dictDataCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.DictDataUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -114,7 +114,7 @@ func (c *dictDataCtl) Update(r *ghttp.Request) {
 }
 
 func (c *dictDataCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.DictDataDeleteReq
 		if err := r.Parse(&req); err != nil {

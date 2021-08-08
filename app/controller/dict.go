@@ -21,7 +21,6 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -29,11 +28,6 @@ import (
 var Dict = new(dictCtl)
 
 type dictCtl struct{}
-
-func (c *dictCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "dict/index.html").WriteTpl()
-}
 
 func (c *dictCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -57,7 +51,7 @@ func (c *dictCtl) List(r *ghttp.Request) {
 }
 
 func (c *dictCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.DictAddReq
 		if err := r.Parse(&req); err != nil {
@@ -83,7 +77,7 @@ func (c *dictCtl) Add(r *ghttp.Request) {
 }
 
 func (c *dictCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.DictUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -109,7 +103,7 @@ func (c *dictCtl) Update(r *ghttp.Request) {
 }
 
 func (c *dictCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.DictDeleteReq
 		if err := r.Parse(&req); err != nil {

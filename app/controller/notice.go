@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,14 +28,6 @@ import (
 var Notice = new(noticeCtl)
 
 type noticeCtl struct{}
-
-func (c *noticeCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl":    "notice/index.html",
-		"sourceList": common.NOTICE_SOURCE_LIST,
-	})
-}
 
 func (c *noticeCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -68,35 +57,8 @@ func (c *noticeCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *noticeCtl) Edit(r *ghttp.Request) {
-	//记录ID
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.Notice.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":    "notice/edit.html",
-			"info":       info,
-			"sourceList": common.NOTICE_SOURCE_LIST,
-		})
-	} else {
-		// 添加
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":    "notice/edit.html",
-			"sourceList": common.NOTICE_SOURCE_LIST,
-		})
-	}
-}
-
 func (c *noticeCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.NoticeAddReq
 		if err := r.Parse(&req); err != nil {
@@ -124,7 +86,7 @@ func (c *noticeCtl) Add(r *ghttp.Request) {
 }
 
 func (c *noticeCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.NoticeUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -152,7 +114,7 @@ func (c *noticeCtl) Update(r *ghttp.Request) {
 }
 
 func (c *noticeCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.NoticeDeleteReq
 		if err := r.Parse(&req); err != nil {

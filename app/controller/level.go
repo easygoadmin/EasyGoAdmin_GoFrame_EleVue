@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -32,13 +29,7 @@ var Level = new(levelCtl)
 
 type levelCtl struct{}
 
-func (c *levelCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "level/index.html",
-	})
-}
-
+// 查询数据列表
 func (c *levelCtl) List(r *ghttp.Request) {
 	// 请求参数
 	var req *model.LevelQueryReq
@@ -67,33 +58,9 @@ func (c *levelCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *levelCtl) Edit(r *ghttp.Request) {
-	// 查询记录
-	id := r.GetQueryInt64("id")
-	if id > 0 {
-		info, err := dao.Level.FindOne("id=?", id)
-		if err != nil || info == nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "level/edit.html",
-			"info":    info,
-		})
-	} else {
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "level/edit.html",
-		})
-	}
-
-}
-
+// 添加职级
 func (c *levelCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		var req *model.LevelAddReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{
@@ -116,16 +83,18 @@ func (c *levelCtl) Add(r *ghttp.Request) {
 	}
 }
 
+// 更新职级
 func (c *levelCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "PUT" {
 		// 参数验证
-		var req *model.LevelEditReq
+		var req *model.LevelUpdateReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
 				Msg:  err.Error(),
 			})
 		}
+
 		// 调用更新方法
 		result, err := service.Level.Update(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
@@ -134,7 +103,8 @@ func (c *levelCtl) Update(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		// 更新成功提示
+
+		// 返回结果
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: 0,
 			Msg:  "更新成功",
@@ -143,7 +113,7 @@ func (c *levelCtl) Update(r *ghttp.Request) {
 }
 
 func (c *levelCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "DELETE" {
 		var req *model.LevelDeleteReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{
@@ -170,7 +140,7 @@ func (c *levelCtl) Delete(r *ghttp.Request) {
 }
 
 func (c *levelCtl) Status(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "PUT" {
 		var req *model.LevelStatusReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{

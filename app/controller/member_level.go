@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,13 +28,6 @@ import (
 var MemberLevel = new(memberLevelCtl)
 
 type memberLevelCtl struct{}
-
-func (c *memberLevelCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "member_level/index.html",
-	})
-}
 
 func (c *memberLevelCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -67,33 +57,8 @@ func (c *memberLevelCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *memberLevelCtl) Edit(r *ghttp.Request) {
-	// 记录ID
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.MemberLevel.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "member_level/edit.html",
-			"info":    info,
-		})
-	} else {
-		// 添加
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl": "member_level/edit.html",
-		})
-	}
-}
-
 func (c *memberLevelCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MemberLevelAddReq
 		if err := r.Parse(&req); err != nil {
@@ -121,7 +86,7 @@ func (c *memberLevelCtl) Add(r *ghttp.Request) {
 }
 
 func (c *memberLevelCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MemberLevelUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -149,7 +114,7 @@ func (c *memberLevelCtl) Update(r *ghttp.Request) {
 }
 
 func (c *memberLevelCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.MemberLevelDeleteReq
 		if err := r.Parse(&req); err != nil {

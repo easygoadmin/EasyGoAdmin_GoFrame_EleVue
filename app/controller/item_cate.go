@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,13 +28,6 @@ import (
 var ItemCate = new(itemCateCtl)
 
 type itemCateCtl struct{}
-
-func (c *itemCateCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "item_cate/index.html",
-	})
-}
 
 func (c *itemCateCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -59,48 +49,9 @@ func (c *itemCateCtl) List(r *ghttp.Request) {
 		Data: list,
 	})
 }
-func (c *itemCateCtl) Edit(r *ghttp.Request) {
-	// 站点列表
-	result, _ := dao.Item.All("mark=1")
-	var itemList = map[int]string{}
-	for _, v := range result {
-		itemList[v.Id] = v.Name
-	}
-
-	// 记录ID
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.ItemCate.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 封面
-		if info.IsCover == 1 && info.Cover != "" {
-			info.Cover = utils.GetImageUrl(info.Cover)
-		}
-
-		// 渲染模板
-		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-			"mainTpl":  "item_cate/edit.html",
-			"info":     info,
-			"itemList": itemList,
-		})
-	} else {
-		// 添加
-		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-			"mainTpl":  "item_cate/edit.html",
-			"itemList": itemList,
-		})
-	}
-}
 
 func (c *itemCateCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ItemCateAddReq
 		if err := r.Parse(&req); err != nil {
@@ -128,7 +79,7 @@ func (c *itemCateCtl) Add(r *ghttp.Request) {
 }
 
 func (c *itemCateCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ItemCateUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -156,7 +107,7 @@ func (c *itemCateCtl) Update(r *ghttp.Request) {
 }
 
 func (c *itemCateCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ItemCateDeleteReq
 		if err := r.Parse(&req); err != nil {

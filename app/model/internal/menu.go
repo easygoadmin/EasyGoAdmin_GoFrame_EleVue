@@ -11,15 +11,15 @@ import (
 // Menu is the golang structure for table sys_menu.
 type Menu struct {
     Id         int         `orm:"id,primary"  json:"id"`         // 唯一性标识                     
-    Name       string      `orm:"name"        json:"name"`       // 菜单名称                       
-    Icon       string      `orm:"icon"        json:"icon"`       // 图标                           
-    Url        string      `orm:"url"         json:"url"`        // URL地址                        
-    Param      string      `orm:"param"       json:"param"`      // 参数                           
-    Pid        int         `orm:"pid"         json:"pid"`        // 上级ID                         
-    Type       int         `orm:"type"        json:"type"`       // 类型：1模块 2导航 3菜单 4节点  
-    Permission string      `orm:"permission"  json:"permission"` // 权限标识                       
-    Status     int         `orm:"status"      json:"status"`     // 是否显示：1显示 2不显示        
+    ParentId   int         `orm:"parent_id"   json:"parentId"`   // 上级ID                         
+    Title      string      `orm:"title"       json:"title"`      // 菜单标题                       
+    Icon       string      `orm:"icon"        json:"icon"`       // 菜单图标                       
+    Path       string      `orm:"path"        json:"path"`       // 菜单地址                       
+    Component  string      `orm:"component"   json:"component"`  // 菜单组件                       
     Target     int         `orm:"target"      json:"target"`     // 打开方式：1内部打开 2外部打开  
+    Permission string      `orm:"permission"  json:"permission"` // 权限标识                       
+    Type       int         `orm:"type"        json:"type"`       // 类型：1模块 2导航 3菜单 4节点  
+    Status     int         `orm:"status"      json:"status"`     // 是否显示：1显示 2不显示        
     Note       string      `orm:"note"        json:"note"`       // 菜单备注                       
     Sort       int         `orm:"sort"        json:"sort"`       // 显示顺序                       
     CreateUser int         `orm:"create_user" json:"createUser"` // 添加人                         

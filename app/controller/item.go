@@ -17,13 +17,10 @@
 package controller
 
 import (
-	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -31,14 +28,6 @@ import (
 var Item = new(itemCtl)
 
 type itemCtl struct{}
-
-func (c *itemCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl":  "item/index.html",
-		"typeList": common.ITEM_TYPE_LIST,
-	})
-}
 
 func (c *itemCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -68,38 +57,8 @@ func (c *itemCtl) List(r *ghttp.Request) {
 	})
 }
 
-func (c *itemCtl) Edit(r *ghttp.Request) {
-	id := r.GetQueryInt("id")
-	if id > 0 {
-		// 编辑
-		info, err := dao.Item.FindOne("id=?", id)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 站点图片
-		info.Image = utils.GetImageUrl(info.Image)
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":  "item/edit.html",
-			"info":     info,
-			"typeList": common.ITEM_TYPE_LIST,
-		})
-
-	} else {
-		// 添加
-		// 渲染模板
-		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
-			"mainTpl":  "item/edit.html",
-			"typeList": common.ITEM_TYPE_LIST,
-		})
-	}
-}
-
 func (c *itemCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ItemAddReq
 		if err := r.Parse(&req); err != nil {
@@ -127,7 +86,7 @@ func (c *itemCtl) Add(r *ghttp.Request) {
 }
 
 func (c *itemCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ItemUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -155,7 +114,7 @@ func (c *itemCtl) Update(r *ghttp.Request) {
 }
 
 func (c *itemCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ItemDeleteReq
 		if err := r.Parse(&req); err != nil {

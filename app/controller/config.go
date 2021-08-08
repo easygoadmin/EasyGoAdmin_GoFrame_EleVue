@@ -21,8 +21,6 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -30,14 +28,6 @@ import (
 var Config = new(configCtl)
 
 type configCtl struct{}
-
-func (c *configCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "config/index.html").WriteTpl(g.Map{
-		"configDataTpl":  "config/config_data.html",
-		"configTypeList": common.CONFIG_DATA_TYPE_LIST,
-	})
-}
 
 func (c *configCtl) List(r *ghttp.Request) {
 	// 参数验证
@@ -61,7 +51,7 @@ func (c *configCtl) List(r *ghttp.Request) {
 }
 
 func (c *configCtl) Add(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ConfigAddReq
 		if err := r.Parse(&req); err != nil {
@@ -87,7 +77,7 @@ func (c *configCtl) Add(r *ghttp.Request) {
 }
 
 func (c *configCtl) Update(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ConfigUpdateReq
 		if err := r.Parse(&req); err != nil {
@@ -113,7 +103,7 @@ func (c *configCtl) Update(r *ghttp.Request) {
 }
 
 func (c *configCtl) Delete(r *ghttp.Request) {
-	if r.IsAjaxRequest() {
+	if r.Method == "POST" {
 		// 参数验证
 		var req *model.ConfigDeleteReq
 		if err := r.Parse(&req); err != nil {

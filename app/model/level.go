@@ -27,8 +27,8 @@ type LevelAddReq struct {
 	Sort   int    `p:"sort"  v:"required#显示顺序不能为空"`
 }
 
-// 编辑职级
-type LevelEditReq struct {
+// 更新职级
+type LevelUpdateReq struct {
 	Id     int  `p:"id" v:"required#主键ID不能为空"`
 	Name   string `p:"name"  v:"required#职级名称不能为空"`
 	Status int    `p:"status"    v:"required#职级状态不能为空"`

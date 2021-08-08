@@ -27,6 +27,7 @@ app/widget
 node_modules/
 src/
 dist/
+evui/
 template/tpl/
 app/service/generate.go
 package.json

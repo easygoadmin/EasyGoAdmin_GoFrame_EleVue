@@ -80,7 +80,7 @@ func (s *levelService) Add(req *model.LevelAddReq, userId int) (int64, error) {
 	return id, nil
 }
 
-func (s *levelService) Update(req *model.LevelEditReq, userId int) (int64, error) {
+func (s *levelService) Update(req *model.LevelUpdateReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}

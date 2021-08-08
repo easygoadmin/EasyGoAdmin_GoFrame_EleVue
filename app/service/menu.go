@@ -22,6 +22,7 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"errors"
+	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
@@ -65,7 +66,7 @@ func (s *menuService) GetPermissionList(userId int) interface{} {
 // 获取子级菜单
 func (s *menuService) GetTreeList() ([]*model.TreeNode, error) {
 	var menuNode model.TreeNode
-	data, err := dao.Menu.Where("type=0 and mark=1").Fields("id,name,pid,icon,url,target").Order("sort").FindAll()
+	data, err := dao.Menu.Where("type=0 and mark=1").Order("sort asc").FindAll()
 	if err != nil {
 		return nil, errors.New("系统错误")
 	}
@@ -76,7 +77,8 @@ func (s *menuService) GetTreeList() ([]*model.TreeNode, error) {
 //递归生成分类列表
 func makeTree(menu []*model.Menu, tn *model.TreeNode) {
 	for _, c := range menu {
-		if c.Pid == tn.Id {
+		if c.ParentId == tn.Id {
+			fmt.Println(c.ParentId)
 			child := &model.TreeNode{}
 			child.Menu = *c
 			tn.Children = append(tn.Children, child)
@@ -109,11 +111,10 @@ func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 	}
 	// 实例化对象
 	var entity model.Menu
-	entity.Name = req.Name
+	entity.Title = req.Title
 	entity.Icon = req.Icon
-	entity.Url = req.Url
-	entity.Param = req.Param
-	entity.Pid = req.Pid
+	entity.Path = req.Path
+	entity.ParentId = req.ParentId
 	entity.Type = req.Type
 	entity.Permission = req.Permission
 	entity.Status = req.Status
@@ -137,7 +138,7 @@ func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Url, gconv.Int(id), userId)
+	setPermission(req.Type, req.Func, req.Path, gconv.Int(id), userId)
 
 	return id, nil
 }
@@ -156,11 +157,10 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	}
 
 	// 设置参数值
-	info.Name = req.Name
+	info.Title = req.Title
 	info.Icon = req.Icon
-	info.Url = req.Url
-	info.Param = req.Param
-	info.Pid = req.Pid
+	info.Path = req.Path
+	info.ParentId = req.ParentId
 	info.Type = req.Type
 	info.Permission = req.Permission
 	info.Status = req.Status
@@ -177,7 +177,7 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Url, req.Id, userId)
+	setPermission(req.Type, req.Func, req.Path, req.Id, userId)
 
 	// 获取数影响的行数
 	rows, err := result.RowsAffected()
@@ -238,47 +238,47 @@ func setPermission(menuType int, funcIds string, url string, pid int, userId int
 			// 节点索引
 			value := gconv.Int(v)
 			if value == 1 {
-				entity.Name = "列表"
-				entity.Url = "/" + moduleName + "/list"
+				entity.Title = "列表"
+				entity.Path = "/" + moduleName + "/list"
 				entity.Permission = "sys:" + moduleName + ":list"
 			} else if value == 5 {
-				entity.Name = "添加"
-				entity.Url = "/" + moduleName + "/add"
+				entity.Title = "添加"
+				entity.Path = "/" + moduleName + "/add"
 				entity.Permission = "sys:" + moduleName + ":add"
 			} else if value == 10 {
-				entity.Name = "修改"
-				entity.Url = "/" + moduleName + "/update"
+				entity.Title = "修改"
+				entity.Path = "/" + moduleName + "/update"
 				entity.Permission = "sys:" + moduleName + ":update"
 			} else if value == 15 {
-				entity.Name = "删除"
-				entity.Url = "/" + moduleName + "/delete"
+				entity.Title = "删除"
+				entity.Path = "/" + moduleName + "/delete"
 				entity.Permission = "sys:" + moduleName + ":delete"
 			} else if value == 20 {
-				entity.Name = "详情"
-				entity.Url = "/" + moduleName + "/detail"
+				entity.Title = "详情"
+				entity.Path = "/" + moduleName + "/detail"
 				entity.Permission = "sys:" + moduleName + ":detail"
 			} else if value == 25 {
-				entity.Name = "状态"
-				entity.Url = "/" + moduleName + "/status"
+				entity.Title = "状态"
+				entity.Path = "/" + moduleName + "/status"
 				entity.Permission = "sys:" + moduleName + ":status"
 			} else if value == 30 {
-				entity.Name = "批量删除"
-				entity.Url = "/" + moduleName + "/dall"
+				entity.Title = "批量删除"
+				entity.Path = "/" + moduleName + "/dall"
 				entity.Permission = "sys:" + moduleName + ":dall"
 			} else if value == 35 {
-				entity.Name = "添加子级"
-				entity.Url = "/" + moduleName + "/addz"
+				entity.Title = "添加子级"
+				entity.Path = "/" + moduleName + "/addz"
 				entity.Permission = "sys:" + moduleName + ":addz"
 			} else if value == 40 {
-				entity.Name = "全部展开"
-				entity.Url = "/" + moduleName + "/expand"
+				entity.Title = "全部展开"
+				entity.Path = "/" + moduleName + "/expand"
 				entity.Permission = "sys:" + moduleName + ":expand"
 			} else if value == 45 {
-				entity.Name = "全部折叠"
-				entity.Url = "/" + moduleName + "/collapse"
+				entity.Title = "全部折叠"
+				entity.Path = "/" + moduleName + "/collapse"
 				entity.Permission = "sys:" + moduleName + ":collapse"
 			}
-			entity.Pid = pid
+			entity.ParentId = pid
 			entity.Type = 1
 			entity.Status = 1
 			entity.Target = 1
@@ -301,15 +301,15 @@ func (s *menuService) MakeList(data []*model.TreeNode) map[int]string {
 	if reflect.ValueOf(data).Kind() == reflect.Slice {
 		// 一级栏目
 		for _, val := range data {
-			menuList[val.Id] = val.Name
+			menuList[val.Id] = val.Title
 
 			// 二级栏目
 			for _, v := range val.Children {
-				menuList[v.Id] = "|--" + v.Name
+				menuList[v.Id] = "|--" + v.Title
 
 				// 三级栏目
 				for _, vt := range v.Children {
-					menuList[vt.Id] = "|--|--" + vt.Name
+					menuList[vt.Id] = "|--|--" + vt.Title
 				}
 			}
 		}

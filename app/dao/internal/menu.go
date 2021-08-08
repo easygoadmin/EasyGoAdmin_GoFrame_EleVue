@@ -27,15 +27,15 @@ type MenuDao struct {
 // MenuColumns defines and stores column names for table sys_menu.
 type MenuColumns struct {
 	Id          string // 唯一性标识                     
-    Name        string // 菜单名称                       
-    Icon        string // 图标                           
-    Url         string // URL地址                        
-    Param       string // 参数                           
-    Pid         string // 上级ID                         
-    Type        string // 类型：1模块 2导航 3菜单 4节点  
-    Permission  string // 权限标识                       
-    Status      string // 是否显示：1显示 2不显示        
+    ParentId    string // 上级ID                         
+    Title       string // 菜单标题                       
+    Icon        string // 菜单图标                       
+    Path        string // 菜单地址                       
+    Component   string // 菜单组件                       
     Target      string // 打开方式：1内部打开 2外部打开  
+    Permission  string // 权限标识                       
+    Type        string // 类型：1模块 2导航 3菜单 4节点  
+    Status      string // 是否显示：1显示 2不显示        
     Note        string // 菜单备注                       
     Sort        string // 显示顺序                       
     CreateUser  string // 添加人                         
@@ -53,15 +53,15 @@ var (
 		Table: "sys_menu",
 		Columns: MenuColumns{
 			Id:         "id",           
-            Name:       "name",         
+            ParentId:   "parent_id",    
+            Title:      "title",        
             Icon:       "icon",         
-            Url:        "url",          
-            Param:      "param",        
-            Pid:        "pid",          
-            Type:       "type",         
-            Permission: "permission",   
-            Status:     "status",       
+            Path:       "path",         
+            Component:  "component",    
             Target:     "target",       
+            Permission: "permission",   
+            Type:       "type",         
+            Status:     "status",       
             Note:       "note",         
             Sort:       "sort",         
             CreateUser: "create_user",  
