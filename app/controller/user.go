@@ -58,137 +58,127 @@ func (c *userCtl) List(r *ghttp.Request) {
 }
 
 func (c *userCtl) Add(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.UserAddReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用添加方法
-		id, err := service.User.Add(req, utils.Uid(r.Session))
-		if err != nil || id == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.UserAddReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "添加成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用添加方法
+	id, err := service.User.Add(req, utils.Uid(r.Session))
+	if err != nil || id == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "添加成功",
+	})
 }
 
 func (c *userCtl) Update(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.UserUpdateReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用更新方法
-		rows, err := service.User.Update(req, utils.Uid(r.Session))
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.UserUpdateReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用更新方法
+	rows, err := service.User.Update(req, utils.Uid(r.Session))
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新成功",
+	})
 }
 
 func (c *userCtl) Delete(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.UserDeleteReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用删除方法
-		rows, err := service.User.Delete(req.Ids)
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.UserDeleteReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "删除成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用删除方法
+	rows, err := service.User.Delete(req.Ids)
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "删除成功",
+	})
 }
 
 func (c *userCtl) Status(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.UserStatusReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		result, err := service.User.Status(req, utils.Uid(r.Session))
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 保存成功
+	var req *model.UserStatusReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "设置成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+	result, err := service.User.Status(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 保存成功
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "设置成功",
+	})
 }
 
 func (c *userCtl) ResetPwd(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.UserResetPwdReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用重置密码方法
-		rows, err := service.User.ResetPwd(req.Id, utils.Uid(r.Session))
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.UserResetPwdReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "重置密码成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用重置密码方法
+	rows, err := service.User.ResetPwd(req.Id, utils.Uid(r.Session))
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "重置密码成功",
+	})
 }

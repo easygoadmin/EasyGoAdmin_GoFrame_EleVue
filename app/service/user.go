@@ -105,6 +105,9 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 		if v.DeptId > 0 {
 			item.DeptName = deptMap[v.DeptId]
 		}
+		// 角色列表
+		item.RoleList = UserRole.getUserRoleList(v.Id)
+		// 加入数组
 		result = append(result, item)
 	}
 	return result, count, nil

@@ -103,6 +103,7 @@ type UserInfoVo struct {
 	PositionName string      `json:"positionName"` // 岗位
 	DeptName     string      `json:"deptName"`     // 部门
 	RoleIds      interface{} `json:"RoleIds"`      // 角色ID
+	RoleList     interface{} `json:"roleList"`     // 角色列表
 }
 
 // 更新密码
