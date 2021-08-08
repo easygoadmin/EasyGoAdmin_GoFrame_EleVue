@@ -21,6 +21,7 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
+	"fmt"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -81,6 +82,7 @@ func (c *deptCtl) Update(r *ghttp.Request) {
 			Msg:  err.Error(),
 		})
 	}
+	fmt.Println(req)
 
 	// 调用编辑方法
 	result, err := service.Dept.Update(req, utils.Uid(r.Session))

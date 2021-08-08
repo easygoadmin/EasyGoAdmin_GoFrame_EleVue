@@ -24,6 +24,7 @@ type RoleAddReq struct {
 	Code   string `p:"code" v:"required#角色编码不能为空"`
 	Status int    `p:status v:"required#角色状态不能为空"`
 	Sort   int    `p:sort v:"required#角色排序不能为空"`
+	Note   string `p:"note"` // 备注
 }
 
 type RoleUpdateReq struct {
@@ -32,6 +33,7 @@ type RoleUpdateReq struct {
 	Code   string `p:"code" v:"required#角色编码不能为空"`
 	Status int    `p:status v:"required#角色状态不能为空"`
 	Sort   int    `p:sort v:"required#角色排序不能为空"`
+	Note   string `p:"note"` // 备注
 }
 
 type RoleDeleteReq struct {

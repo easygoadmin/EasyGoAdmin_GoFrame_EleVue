@@ -55,103 +55,95 @@ func (c *roleCtl) List(r *ghttp.Request) {
 }
 
 func (c *roleCtl) Add(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.RoleAddReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 调用添加方法
-		id, err := service.Role.Add(req, utils.Uid(r.Session))
-		if err != nil || id <= 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
+	// 参数验证
+	var req *model.RoleAddReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "添加成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+	// 调用添加方法
+	id, err := service.Role.Add(req, utils.Uid(r.Session))
+	if err != nil || id <= 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "添加成功",
+	})
 }
 
 func (c *roleCtl) Update(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.RoleUpdateReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用更新方法
-		result, err := service.Role.Update(req, utils.Uid(r.Session))
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
+	var req *model.RoleUpdateReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用更新方法
+	result, err := service.Role.Update(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新成功",
+	})
 }
 
 func (c *roleCtl) Delete(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.RoleDeleteReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用删除方法
-		result, err := service.Role.Delete(req.Ids)
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
+	var req *model.RoleDeleteReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "删除成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用删除方法
+	result, err := service.Role.Delete(req.Ids)
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "删除成功",
+	})
 }
 
 func (c *roleCtl) Status(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.RoleStatusReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用设置方法
-		result, err := service.Role.Status(req, utils.Uid(r.Session))
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	var req *model.RoleStatusReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "设置成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用设置方法
+	result, err := service.Role.Status(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "设置成功",
+	})
 }

@@ -21,7 +21,7 @@ type TreeNode struct {
 
 // 列表查询条件
 type MenuQueryReq struct {
-	Name string `p:"name"` // 菜单名称
+	Title string `p:"name"` // 菜单标题
 }
 
 // 添加菜单
@@ -31,10 +31,11 @@ type MenuAddReq struct {
 	Icon       string `p:"icon"        v:"required#菜单图标不能为空"` // 图标
 	Path       string `p:"path"        v:"required#菜单路径不能为空"` // URL地址
 	Component  string `p:"component"   v:"required#菜单组件不能为空"` // 菜单组件
-	Target     int    `p:"target"      v:"required#请选择打开方式"`  // 打开方式：1内部打开 2外部打开
+	Target     string `p:"target"`                            // 打开方式：0组件 1内链 2外链
 	Permission string `p:"permission"`                        // 权限标识
 	Type       int    `p:"type"        v:"required#请选择菜单类型""` // 类型：1模块 2导航 3菜单 4节点
-	Status     int    `p:"status"      v:"required#请选择菜单状态""` // 是否显示：1显示 2不显示
+	Status     int    `p:"status"      v:"required#请选择菜单状态""` // 状态：1正常 2禁用
+	Hide       int    `p:"hide"`                              // 是否可见：1是 2否
 	Note       string `p:"note"`                              // 菜单备注
 	Sort       int    `p:"sort"        v:"required#请输入菜单排序号"` // 显示顺序
 	Func       string `p:"func"`                              // 权限节点
@@ -48,10 +49,11 @@ type MenuUpdateReq struct {
 	Icon       string `p:"icon"        v:"required#菜单图标不能为空"` // 图标
 	Path       string `p:"path"        v:"required#菜单路径不能为空"` // URL地址
 	Component  string `p:"component"   v:"required#菜单组件不能为空"` // 菜单组件
-	Target     int    `p:"target"      v:"required#请选择打开方式"`  // 打开方式：1内部打开 2外部打开
+	Target     string `p:"target"`                            // 打开方式：0组件 1内链 2外链
 	Permission string `p:"permission"`                        // 权限标识
 	Type       int    `p:"type"        v:"required#请选择菜单类型""` // 类型：1模块 2导航 3菜单 4节点
 	Status     int    `p:"status"      v:"required#请选择菜单状态""` // 是否显示：1显示 2不显示
+	Hide       int    `p:"hide"`                              // 是否可见：1是 2否
 	Note       string `p:"note"`                              // 菜单备注
 	Sort       int    `p:"sort"        v:"required#请输入菜单排序号"` // 显示顺序
 	Func       string `p:"func"`                              // 权限节点

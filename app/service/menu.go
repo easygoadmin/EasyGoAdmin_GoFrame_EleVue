@@ -22,6 +22,7 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"errors"
+	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
@@ -85,14 +86,14 @@ func makeTree(menu []*model.Menu, tn *model.TreeNode) {
 	}
 }
 
-func (s *menuService) List(req *model.MenuQueryReq) []model.Menu {
+func (s *menuService) GetList(req *model.MenuQueryReq) []model.Menu {
 	// 创建查询条件
 	query := dao.Menu.Where("mark=1")
 	// 查询条件
 	if req != nil {
-		// 菜单名称
-		if req.Name != "" {
-			query = query.Where("name like ?", "%"+req.Name+"%")
+		// 菜单标题
+		if req.Title != "" {
+			query = query.Where("title like ?", "%"+req.Title+"%")
 		}
 	}
 	// 排序
@@ -153,7 +154,7 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	if info == nil {
 		return 0, gerror.New("记录不存在")
 	}
-
+	fmt.Println(req)
 	// 设置参数值
 	info.Title = req.Title
 	info.Icon = req.Icon
@@ -279,7 +280,7 @@ func setPermission(menuType int, funcIds string, url string, pid int, userId int
 			entity.ParentId = pid
 			entity.Type = 1
 			entity.Status = 1
-			entity.Target = 1
+			entity.Target = "_self"
 			entity.Sort = value
 			entity.CreateUser = userId
 			entity.CreateTime = gtime.Now()

@@ -13,9 +13,9 @@ type Role struct {
     Id         int         `orm:"id,primary"  json:"id"`         // 主键ID                 
     Name       string      `orm:"name"        json:"name"`       // 角色名称               
     Code       string      `orm:"code"        json:"code"`       // 角色标签               
-    Status     int         `orm:"status"      json:"status"`     // 状态：1正常 2禁用      
     Note       string      `orm:"note"        json:"note"`       // 备注                   
     Sort       int         `orm:"sort"        json:"sort"`       // 排序                   
+    Status     int         `orm:"status"      json:"status"`     // 状态：1正常 2停用      
     CreateUser int         `orm:"create_user" json:"createUser"` // 添加人                 
     CreateTime *gtime.Time `orm:"create_time" json:"createTime"` // 添加时间               
     UpdateUser int         `orm:"update_user" json:"updateUser"` // 更新人                 

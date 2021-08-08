@@ -29,9 +29,9 @@ type RoleColumns struct {
 	Id          string // 主键ID                 
     Name        string // 角色名称               
     Code        string // 角色标签               
-    Status      string // 状态：1正常 2禁用      
     Note        string // 备注                   
     Sort        string // 排序                   
+    Status      string // 状态：1正常 2停用      
     CreateUser  string // 添加人                 
     CreateTime  string // 添加时间               
     UpdateUser  string // 更新人                 
@@ -49,9 +49,9 @@ var (
 			Id:         "id",           
             Name:       "name",         
             Code:       "code",         
-            Status:     "status",       
             Note:       "note",         
             Sort:       "sort",         
+            Status:     "status",       
             CreateUser: "create_user",  
             CreateTime: "create_time",  
             UpdateUser: "update_user",  

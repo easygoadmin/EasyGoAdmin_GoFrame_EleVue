@@ -66,6 +66,7 @@ func (s *roleService) Add(req *model.RoleAddReq, userId int) (int64, error) {
 	entity.Code = req.Code
 	entity.Status = req.Status
 	entity.Sort = req.Sort
+	entity.Note = req.Note
 	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
@@ -102,6 +103,7 @@ func (s *roleService) Update(req *model.RoleUpdateReq, userId int) (int64, error
 	info.Code = req.Code
 	info.Status = req.Status
 	info.Sort = req.Sort
+	info.Note = req.Note
 	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 	result, err := dao.Role.Save(info)
