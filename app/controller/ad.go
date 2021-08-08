@@ -58,109 +58,101 @@ func (c *adCtl) List(r *ghttp.Request) {
 }
 
 func (c *adCtl) Add(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.AdAddReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用添加方法
-		id, err := service.Ad.Add(req, utils.Uid(r.Session))
-		if err != nil || id == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.AdAddReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "添加成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用添加方法
+	id, err := service.Ad.Add(req, utils.Uid(r.Session))
+	if err != nil || id == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "添加成功",
+	})
 }
 
 func (c *adCtl) Update(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.AdUpdateReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用更新方法
-		rows, err := service.Ad.Update(req, utils.Uid(r.Session))
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.AdUpdateReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用更新方法
+	rows, err := service.Ad.Update(req, utils.Uid(r.Session))
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新成功",
+	})
 }
 
 func (c *adCtl) Delete(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.AdDeleteReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用删除方法
-		rows, err := service.Ad.Delete(req.Ids)
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.AdDeleteReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "删除成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用删除方法
+	rows, err := service.Ad.Delete(req.Ids)
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "删除成功",
+	})
 }
 
 func (c *adCtl) Status(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.AdStatusReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		result, err := service.Ad.Status(req, utils.Uid(r.Session))
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 保存成功
+	var req *model.AdStatusReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "设置成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+	result, err := service.Ad.Status(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 保存成功
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "设置成功",
+	})
 }

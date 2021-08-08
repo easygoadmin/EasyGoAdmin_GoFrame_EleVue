@@ -51,6 +51,7 @@ func (c *deptCtl) List(r *ghttp.Request) {
 }
 
 func (c *deptCtl) Add(r *ghttp.Request) {
+	// 参数验证
 	var req *model.DeptAddReq
 	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{

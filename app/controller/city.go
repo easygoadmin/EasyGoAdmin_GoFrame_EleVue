@@ -51,114 +51,106 @@ func (c *cityCtl) List(r *ghttp.Request) {
 }
 
 func (c *cityCtl) Add(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.CityAddReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用添加方法
-		id, err := service.City.Add(req, utils.Uid(r.Session))
-		if err != nil || id == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.CityAddReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "添加成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用添加方法
+	id, err := service.City.Add(req, utils.Uid(r.Session))
+	if err != nil || id == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "添加成功",
+	})
 }
 
 func (c *cityCtl) Update(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.CityUpdateReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用修改方法
-		rows, err := service.City.Update(req, utils.Uid(r.Session))
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.CityUpdateReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "修改成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用修改方法
+	rows, err := service.City.Update(req, utils.Uid(r.Session))
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "修改成功",
+	})
 }
 
 func (c *cityCtl) Delete(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.CityDeleteReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用删除方法
-		rows, err := service.City.Delete(req.Ids)
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.CityDeleteReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "删除成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用删除方法
+	rows, err := service.City.Delete(req.Ids)
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "删除成功",
+	})
 }
 
 func (c *cityCtl) GetChilds(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.CityChildReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用获取子级城市
-		list, err := service.City.GetChilds(req.CityCode)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.CityChildReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "查询成功",
-			Data: list,
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用获取子级城市
+	list, err := service.City.GetChilds(req.CityCode)
+	if err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
+	})
 }

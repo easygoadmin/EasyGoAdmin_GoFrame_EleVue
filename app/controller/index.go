@@ -82,7 +82,7 @@ func (c *indexCtl) Main(r *ghttp.Request) {
 
 // 个人中心
 func (c *indexCtl) UserInfo(r *ghttp.Request) {
-	if r.Method == "POST" {
+	if r.Method == "PUT" {
 		// 参数验证
 		var req *model.UserInfoReq
 		if err := r.Parse(&req); err != nil {
@@ -117,31 +117,29 @@ func (c *indexCtl) UserInfo(r *ghttp.Request) {
 
 // 更新密码
 func (c *indexCtl) UpdatePwd(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.UpdatePwd
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用更新密码方法
-		rows, err := service.User.UpdatePwd(req, utils.Uid(r.Session))
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.UpdatePwd
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新密码成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用更新密码方法
+	rows, err := service.User.UpdatePwd(req, utils.Uid(r.Session))
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新密码成功",
+	})
 }
 
 // 退出登录

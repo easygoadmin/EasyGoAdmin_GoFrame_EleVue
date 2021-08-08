@@ -36,7 +36,7 @@ var ConfigWeb = new(configWeb)
 type configWeb struct{}
 
 func (c *configWeb) Index(r *ghttp.Request) {
-	if r.Method == "POST" {
+	if r.Method == "PUT" {
 		if utils.AppDebug() {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
