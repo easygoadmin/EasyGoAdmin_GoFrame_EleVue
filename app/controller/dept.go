@@ -50,82 +50,76 @@ func (c *deptCtl) List(r *ghttp.Request) {
 }
 
 func (c *deptCtl) Add(r *ghttp.Request) {
-	if r.Method == "POST" {
-		var req *model.DeptAddReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用添加方法
-		id, err := service.Dept.Add(req, utils.Uid(r.Session))
-		if err != nil || id == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
+	var req *model.DeptAddReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "添加成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用添加方法
+	id, err := service.Dept.Add(req, utils.Uid(r.Session))
+	if err != nil || id == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "添加成功",
+	})
 }
 
 func (c *deptCtl) Update(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.DeptUpdateReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用编辑方法
-		result, err := service.Dept.Update(req, utils.Uid(r.Session))
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.DeptUpdateReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用编辑方法
+	result, err := service.Dept.Update(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新成功",
+	})
 }
 
 func (c *deptCtl) Delete(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.DeptDeleteReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 调用删除方法
-		rows, err := service.Dept.Delete(req.Ids)
-		if err != nil || rows == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+	// 参数验证
+	var req *model.DeptDeleteReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "删除成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+
+	// 调用删除方法
+	rows, err := service.Dept.Delete(req.Ids)
+	if err != nil || rows == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "删除成功",
+	})
 }

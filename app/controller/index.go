@@ -24,7 +24,6 @@ import (
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/function"
 	"easygoadmin/app/utils/response"
-	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -51,7 +50,6 @@ func (c *indexCtl) Menu(r *ghttp.Request) {
 func (c *indexCtl) User(r *ghttp.Request) {
 	// 获取用户信息
 	userInfo, _ := dao.User.FindOne(1)
-	fmt.Println(userInfo)
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,

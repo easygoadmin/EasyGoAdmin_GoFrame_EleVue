@@ -55,79 +55,95 @@ func (c *positionCtl) List(r *ghttp.Request) {
 }
 
 func (c *positionCtl) Add(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.PositionAddReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 调用添加方法
-		id, err := service.Position.Add(req, utils.Uid(r.Session))
-		if err != nil || id == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 添加成功提示
+	// 参数验证
+	var req *model.PositionAddReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "添加成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+	// 调用添加方法
+	id, err := service.Position.Add(req, utils.Uid(r.Session))
+	if err != nil || id == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 添加成功提示
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "添加成功",
+	})
 }
 
 func (c *positionCtl) Update(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.PositionUpdateReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 调用更新方法
-		result, err := service.Position.Update(req, utils.Uid(r.Session))
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 更新成功提示
+	// 参数验证
+	var req *model.PositionUpdateReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
+	// 调用更新方法
+	result, err := service.Position.Update(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 更新成功提示
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新成功",
+	})
 }
 
 func (c *positionCtl) Delete(r *ghttp.Request) {
-	if r.Method == "POST" {
-		// 参数验证
-		var req *model.PositionDeleteReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 调用删除方法
-		result, err := service.Position.Delete(req.Ids)
-		if err != nil || result == 0 {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
+	// 参数验证
+	var req *model.PositionDeleteReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "删除成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
-
 	}
+	// 调用删除方法
+	result, err := service.Position.Delete(req.Ids)
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "删除成功",
+	})
+}
+
+func (c *positionCtl) Status(r *ghttp.Request) {
+	// 参数验证
+	var req *model.PositionStatusReq
+	if err := r.Parse(&req); err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	result, err := service.Position.Status(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 保存成功
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "设置成功",
+	})
 }

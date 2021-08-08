@@ -76,6 +76,7 @@ func init() {
 		group.POST("/add", controller.Position.Add)
 		group.PUT("/update", controller.Position.Update)
 		group.DELETE("/delete", controller.Position.Delete)
+		group.PUT("/status", controller.Position.Status)
 	})
 
 	/* 角色路由 */

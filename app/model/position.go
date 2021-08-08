@@ -36,3 +36,9 @@ type PositionUpdateReq struct {
 type PositionDeleteReq struct {
 	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
 }
+
+// 设置状态
+type PositionStatusReq struct {
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
+}

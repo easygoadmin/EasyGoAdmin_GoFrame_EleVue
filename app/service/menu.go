@@ -22,7 +22,6 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"errors"
-	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
@@ -78,7 +77,6 @@ func (s *menuService) GetTreeList() ([]*model.TreeNode, error) {
 func makeTree(menu []*model.Menu, tn *model.TreeNode) {
 	for _, c := range menu {
 		if c.ParentId == tn.Id {
-			fmt.Println(c.ParentId)
 			child := &model.TreeNode{}
 			child.Menu = *c
 			tn.Children = append(tn.Children, child)
