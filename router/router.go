@@ -59,6 +59,7 @@ func init() {
 		group.DELETE("/delete", controller.User.Delete)
 		group.PUT("/status", controller.User.Status)
 		group.PUT("/resetPwd", controller.User.ResetPwd)
+		group.GET("/checkUser", controller.User.CheckUser)
 	})
 
 	/* 职级管理 */
@@ -68,6 +69,7 @@ func init() {
 		group.PUT("/update", controller.Level.Update)
 		group.DELETE("/delete", controller.Level.Delete)
 		group.PUT("/status", controller.Level.Status)
+		group.GET("/getLevelList", controller.Level.GetLevelList)
 	})
 
 	/* 岗位路由 */
@@ -77,6 +79,7 @@ func init() {
 		group.PUT("/update", controller.Position.Update)
 		group.DELETE("/delete", controller.Position.Delete)
 		group.PUT("/status", controller.Position.Status)
+		group.GET("/getPositionList", controller.Position.GetPositionList)
 	})
 
 	/* 角色路由 */
@@ -86,6 +89,7 @@ func init() {
 		group.PUT("/update", controller.Role.Update)
 		group.DELETE("/delete", controller.Role.Delete)
 		group.PUT("/status", controller.Role.Status)
+		group.GET("/getRoleList", controller.Role.GetRoleList)
 	})
 
 	/* 角色菜单权限 */
@@ -100,6 +104,7 @@ func init() {
 		group.POST("/add", controller.Dept.Add)
 		group.PUT("/update", controller.Dept.Update)
 		group.DELETE("/delete", controller.Dept.Delete)
+		group.GET("/getDeptList", controller.Dept.GetDeptList)
 	})
 
 	/* 菜单管理 */

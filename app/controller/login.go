@@ -31,9 +31,9 @@ type loginCtl struct{}
 
 type LoginReq struct {
 	UserName string `p:"username" v:"required|length:5,30#请输入登录账号|账号长度为：min-max位"`
-	Password string `p:"password" v:"required|length:6,12#请输入密码|密码长度为：min-max位"`
+	Password string `p:"password" v:"required|length:5,12#请输入密码|密码长度为：min-max位"`
 	Captcha  string `p:"captcha" v:"required|length:4,6#请输入验证码|验证码长度不够"`
-	IdKey    string `p:"IdKey" v:"required#验证码KEY不能为空"`
+	IdKey    string `p:"idKey" v:"required#验证码KEY不能为空"`
 }
 
 // 系统登录

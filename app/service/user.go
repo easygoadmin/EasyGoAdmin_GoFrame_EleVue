@@ -26,7 +26,6 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
-	"strings"
 )
 
 // 中间件管理服务
@@ -106,7 +105,21 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 			item.DeptName = deptMap[v.DeptId]
 		}
 		// 角色列表
-		item.RoleList = UserRole.getUserRoleList(v.Id)
+		roleList := UserRole.getUserRoleList(v.Id)
+		if len(roleList) > 0 {
+			item.RoleList = roleList
+		} else {
+			item.RoleList = make([]model.Role, 0)
+		}
+		// 省市区
+		cityList := make([]string, 0)
+		// 省份编号
+		cityList = append(cityList, item.ProvinceCode)
+		// 城市编号
+		cityList = append(cityList, item.CityCode)
+		// 县区编号
+		cityList = append(cityList, item.DistrictCode)
+		item.City = cityList
 		// 加入数组
 		result = append(result, item)
 	}
@@ -129,15 +142,19 @@ func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 	entity.DeptId = req.DeptId
 	entity.LevelId = req.LevelId
 	entity.PositionId = req.PositionId
-	entity.ProvinceCode = req.ProvinceCode
-	entity.CityCode = req.CityCode
-	entity.DistrictCode = req.DistrictCode
 	entity.Address = req.Address
 	entity.Username = req.Username
 	entity.Intro = req.Intro
 	entity.Status = req.Status
 	entity.Note = req.Note
 	entity.Sort = req.Sort
+
+	// 省市区处理
+	if len(req.City) == 3 {
+		entity.ProvinceCode = req.City[0]
+		entity.CityCode = req.City[1]
+		entity.DistrictCode = req.City[2]
+	}
 
 	// 密码
 	if req.Password != "" {
@@ -161,6 +178,19 @@ func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 	result, err := dao.User.Insert(entity)
 	if err != nil {
 		return 0, err
+	}
+
+	// 删除用户角色关系
+	dao.UserRole.Delete("user_id=?", userId)
+	// 创建人员角色关系
+	for _, v := range req.RoleIds {
+		if v <= 0 {
+			continue
+		}
+		var userRole model.UserRole
+		userRole.UserId = userId
+		userRole.RoleId = gconv.Int(v)
+		dao.UserRole.Insert(userRole)
 	}
 
 	// 获取插入ID
@@ -194,15 +224,19 @@ func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error
 	info.DeptId = req.DeptId
 	info.LevelId = req.LevelId
 	info.PositionId = req.PositionId
-	info.ProvinceCode = req.ProvinceCode
-	info.CityCode = req.CityCode
-	info.DistrictCode = req.DistrictCode
 	info.Address = req.Address
 	info.Username = req.Username
 	info.Intro = req.Intro
 	info.Status = req.Status
 	info.Note = req.Note
 	info.Sort = req.Sort
+
+	// 省市区处理
+	if len(req.City) == 3 {
+		info.ProvinceCode = req.City[0]
+		info.CityCode = req.City[1]
+		info.DistrictCode = req.City[2]
+	}
 
 	// 密码
 	if req.Password != "" {
@@ -230,8 +264,10 @@ func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error
 	// 删除用户角色关系
 	dao.UserRole.Delete("user_id=?", userId)
 	// 创建人员角色关系
-	roleIds := strings.Split(req.RoleIds, ",")
-	for _, v := range roleIds {
+	for _, v := range req.RoleIds {
+		if v <= 0 {
+			continue
+		}
 		var userRole model.UserRole
 		userRole.UserId = userId
 		userRole.RoleId = gconv.Int(v)
@@ -404,4 +440,12 @@ func (s *userService) UpdatePwd(req *model.UpdatePwd, userId int) (int64, error)
 		return 0, err
 	}
 	return rows, nil
+}
+
+func (s *userService) CheckUser(req *model.CheckUserReq) (*model.User, error) {
+	user, err := dao.User.Where("username=? and mark=1", req.Username).FindOne()
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }

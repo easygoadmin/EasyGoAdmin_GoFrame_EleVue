@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -145,5 +146,16 @@ func (c *positionCtl) Status(r *ghttp.Request) {
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
 		Msg:  "设置成功",
+	})
+}
+
+func (c *positionCtl) GetPositionList(r *ghttp.Request) {
+	// 查询岗位列表
+	list, _ := dao.Position.Where("status=1 and mark=1").Order("sort asc").All()
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
 	})
 }

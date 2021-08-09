@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -124,5 +125,16 @@ func (c *deptCtl) Delete(r *ghttp.Request) {
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
 		Msg:  "删除成功",
+	})
+}
+
+func (c *deptCtl) GetDeptList(r *ghttp.Request) {
+	// 查询部门列表
+	list, _ := dao.Dept.Where("mark=1").Order("sort asc").All()
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
 	})
 }

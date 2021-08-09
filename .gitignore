@@ -20,7 +20,7 @@ main
 .vscode
 go.sum
 
-document/easygoadmin.gf.layui.sql
+document/easygoadmin.gf.ele.sql
 app/utils
 app/widget
 

@@ -49,7 +49,9 @@ func (c *indexCtl) Menu(r *ghttp.Request) {
 
 func (c *indexCtl) User(r *ghttp.Request) {
 	// 获取用户信息
-	userInfo, _ := dao.User.FindOne(1)
+	userInfo, _ := dao.User.FindOne(utils.Uid(r.Session))
+	// 头像
+	userInfo.Avatar = utils.GetImageUrl(userInfo.Avatar)
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,

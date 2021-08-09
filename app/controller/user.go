@@ -182,3 +182,30 @@ func (c *userCtl) ResetPwd(r *ghttp.Request) {
 		Msg:  "重置密码成功",
 	})
 }
+
+// 检查用户名
+func (c *userCtl) CheckUser(r *ghttp.Request) {
+	// 参数验证
+	var req *model.CheckUserReq
+	if err := r.Parse(&req); err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 调用检查用户方法
+	user, err := service.User.CheckUser(req)
+	if err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "操作成功",
+		Data: user,
+	})
+}

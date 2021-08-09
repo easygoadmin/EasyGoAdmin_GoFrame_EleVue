@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -146,4 +147,17 @@ func (c *roleCtl) Status(r *ghttp.Request) {
 		Code: 0,
 		Msg:  "设置成功",
 	})
+}
+
+// 获取角色列表
+func (c *roleCtl) GetRoleList(r *ghttp.Request) {
+	// 获取角色列表
+	list, _ := dao.Role.Where("status=1 and mark=1").Order("sort asc").All()
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
+	})
+
 }
