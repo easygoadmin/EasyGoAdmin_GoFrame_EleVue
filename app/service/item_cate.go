@@ -59,6 +59,10 @@ func (s *itemCateService) GetList(req *model.ItemCateQueryReq) []model.ItemCateI
 	for _, v := range list {
 		item := model.ItemCateInfoVo{}
 		item.ItemCate = v
+		// 站点封面
+		if v.IsCover == 1 && v.Cover != "" {
+			item.Cover = utils.GetImageUrl(v.Cover)
+		}
 		// 获取栏目
 		if v.ItemId > 0 {
 			itemInfo, _ := dao.Item.FindOne("id=?", item.ItemId)

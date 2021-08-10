@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -132,5 +133,38 @@ func (c *itemCtl) Delete(r *ghttp.Request) {
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
 		Msg:  "删除成功",
+	})
+}
+
+func (c *itemCtl) Status(r *ghttp.Request) {
+	var req *model.ItemStatusReq
+	if err := r.Parse(&req); err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	result, err := service.Item.Status(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 保存成功
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "设置成功",
+	})
+}
+
+func (c *itemCtl) GetItemList(r *ghttp.Request) {
+	// 查询站点列表
+	list, _ := dao.Item.Where("status=1 and mark=1").Order("sort asc").All()
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
 	})
 }

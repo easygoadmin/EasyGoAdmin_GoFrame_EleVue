@@ -172,6 +172,8 @@ func init() {
 		group.POST("/add", controller.Item.Add)
 		group.PUT("/update", controller.Item.Update)
 		group.DELETE("/delete", controller.Item.Delete)
+		group.PUT("/status", controller.Item.Status)
+		group.GET("/getItemList", controller.Item.GetItemList)
 	})
 
 	/* 栏目管理 */

@@ -54,3 +54,9 @@ type ItemUpdateReq struct {
 type ItemDeleteReq struct {
 	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
 }
+
+// 设置状态
+type ItemStatusReq struct {
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
+}
