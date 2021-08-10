@@ -182,7 +182,8 @@ func init() {
 		group.POST("/add", controller.ItemCate.Add)
 		group.PUT("/update", controller.ItemCate.Update)
 		group.DELETE("/delete", controller.ItemCate.Delete)
-		group.GET("/getCateTreeList", controller.ItemCate.GetCateTreeList)
+		//group.GET("/getCateTreeList", controller.ItemCate.GetCateTreeList)
+		group.GET("/getCateList", controller.ItemCate.GetCateList)
 	})
 
 	/* 广告位管理 */
@@ -191,6 +192,7 @@ func init() {
 		group.POST("/add", controller.AdSort.Add)
 		group.PUT("/update", controller.AdSort.Update)
 		group.DELETE("/delete", controller.AdSort.Delete)
+		group.GET("/getAdSortList", controller.AdSort.GetAdSortList)
 	})
 
 	/* 广告管理 */

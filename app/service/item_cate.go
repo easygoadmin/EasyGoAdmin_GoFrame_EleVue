@@ -278,7 +278,9 @@ func (s *itemCateService) GetCateName(cateId int, delimiter string) string {
 	}
 	// 结果数据处理
 	if len(list) > 0 {
-		// 数组翻转
+		// 数组反转
+		utils.Reverse(&list)
+		// 拼接字符串
 		return gstr.Implode(delimiter, list)
 	}
 	return ""

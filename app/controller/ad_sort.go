@@ -134,3 +134,14 @@ func (c *adSortCtl) Delete(r *ghttp.Request) {
 		Msg:  "删除失败",
 	})
 }
+
+func (c *adSortCtl) GetAdSortList(r *ghttp.Request) {
+	// 调用查询列表方法
+	list := service.AdSort.GetAdSortList()
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
+	})
+}

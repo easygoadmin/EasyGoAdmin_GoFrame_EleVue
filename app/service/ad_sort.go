@@ -24,6 +24,7 @@ import (
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/util/gconv"
 )
 
 // 中间件管理服务
@@ -168,4 +169,19 @@ func (s *adSortService) Delete(ids string) (int64, error) {
 		return 0, err
 	}
 	return rows, nil
+}
+
+func (s *adSortService) GetAdSortList() []model.AdSortInfoVo {
+	// 查询广告位列表
+	var list []model.AdSort
+	dao.AdSort.Where("mark=1").Order("sort asc").Structs(&list)
+	// 数据处理
+	result := make([]model.AdSortInfoVo, 0)
+	for _, v := range list {
+		item := model.AdSortInfoVo{}
+		item.AdSort = v
+		item.Description = v.Description + " >> " + gconv.String(v.LocId)
+		result = append(result, item)
+	}
+	return result
 }

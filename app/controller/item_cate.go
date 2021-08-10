@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -127,22 +128,33 @@ func (c *itemCateCtl) Delete(r *ghttp.Request) {
 		Msg:  "删除成功",
 	})
 }
+//
+//func (c *itemCateCtl) GetCateTreeList(r *ghttp.Request) {
+//	itemId := r.GetQueryInt("item_id")
+//	list, err := service.ItemCate.GetCateTreeList(itemId, 0)
+//	if err != nil {
+//		r.Response.WriteJsonExit(common.JsonResult{
+//			Code: -1,
+//			Msg:  err.Error(),
+//		})
+//	}
+//	// 数据源转换
+//	result := service.ItemCate.MakeList(list)
+//	// 返回结果
+//	r.Response.WriteJsonExit(common.JsonResult{
+//		Code: 0,
+//		Msg:  "操作成功",
+//		Data: result,
+//	})
+//}
 
-func (c *itemCateCtl) GetCateTreeList(r *ghttp.Request) {
-	itemId := r.GetQueryInt("item_id")
-	list, err := service.ItemCate.GetCateTreeList(itemId, 0)
-	if err != nil {
-		r.Response.WriteJsonExit(common.JsonResult{
-			Code: -1,
-			Msg:  err.Error(),
-		})
-	}
-	// 数据源转换
-	result := service.ItemCate.MakeList(list)
+func (c *itemCateCtl) GetCateList(r *ghttp.Request) {
+	// 查询栏目列表
+	list, _ := dao.ItemCate.Where("status=1 and mark=1").Order("sort asc").All()
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
-		Msg:  "操作成功",
-		Data: result,
+		Msg:  "查询成功",
+		Data: list,
 	})
 }
