@@ -32,7 +32,7 @@ type NoticeAddReq struct {
 
 // 更新通知公告
 type NoticeUpdateReq struct {
-	Id      int    `p:"id" v:"required#主键ID不能为空"`
+	Id      int    `p:"id" 			v:"required#主键ID不能为空"`
 	Title   string `p:"title"       v:"required#通知标题不能为空"` // 通知标题
 	Content string `p:"content"     v:"required#通知内容不能为空"` // 通知内容
 	Source  int    `p:"source"      v:"required#通知来源不能为空"` // 来源：1内部通知 2外部新闻
@@ -43,6 +43,12 @@ type NoticeUpdateReq struct {
 // 删除通知公告
 type NoticeDeleteReq struct {
 	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
+}
+
+// 设置状态
+type NoticeStatusReq struct {
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
 }
 
 // 通知公告Vo

@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -133,4 +134,16 @@ func (c *memberLevelCtl) Delete(r *ghttp.Request) {
 		Code: 0,
 		Msg:  "删除成功",
 	})
+}
+
+func (c *memberLevelCtl) GetMemberLevelList(r *ghttp.Request) {
+	// 查询会员等级列表
+	list, _ := dao.MemberLevel.Where("mark=1").Order("sort asc").All()
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "查询成功",
+		Data: list,
+	})
+
 }

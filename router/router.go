@@ -206,6 +206,7 @@ func init() {
 		group.POST("/add", controller.Notice.Add)
 		group.PUT("/update", controller.Notice.Update)
 		group.DELETE("/delete", controller.Notice.Delete)
+		group.PUT("/status", controller.Notice.Status)
 	})
 
 	/* 网站设置 */
@@ -219,6 +220,7 @@ func init() {
 		group.POST("/add", controller.MemberLevel.Add)
 		group.PUT("/update", controller.MemberLevel.Update)
 		group.DELETE("/delete", controller.MemberLevel.Delete)
+		group.GET("/getMemberLevelList", controller.MemberLevel.GetMemberLevelList)
 	})
 
 	/* 会员管理 */

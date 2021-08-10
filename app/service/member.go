@@ -80,6 +80,15 @@ func (s *memberService) GetList(req *model.MemberPageReq) ([]model.MemberInfoVo,
 		if v.DistrictCode != "" {
 			item.CityName = City.GetCityName(v.DistrictCode, ">>")
 		}
+		// 省市区
+		cityList := make([]string, 0)
+		// 省份编号
+		cityList = append(cityList, item.ProvinceCode)
+		// 城市编号
+		cityList = append(cityList, item.CityCode)
+		// 县区编号
+		cityList = append(cityList, item.DistrictCode)
+		item.City = cityList
 		// 加入数组
 		result = append(result, item)
 	}
@@ -98,9 +107,6 @@ func (s *memberService) Add(req *model.MemberAddReq, userId int) (int64, error) 
 	entity.Nickname = req.Nickname
 	entity.Gender = req.Gender
 	entity.Birthday = req.Birthday
-	entity.ProvinceCode = req.ProvinceCode
-	entity.CityCode = req.CityCode
-	entity.DistrictCode = req.DistrictCode
 	entity.Address = req.Address
 	entity.Intro = req.Intro
 	entity.Signature = req.Signature
@@ -112,11 +118,26 @@ func (s *memberService) Add(req *model.MemberAddReq, userId int) (int64, error) 
 	entity.Mark = 1
 
 	// 头像处理
-	avatar, err := utils.SaveImage(req.Avatar, "member")
-	if err != nil {
-		return 0, err
+	if req.Avatar != "" {
+		avatar, err := utils.SaveImage(req.Avatar, "member")
+		if err != nil {
+			return 0, err
+		}
+		entity.Avatar = avatar
 	}
-	entity.Avatar = avatar
+
+	// 省市区处理
+	if len(req.City) == 3 {
+		entity.ProvinceCode = req.City[0]
+		entity.CityCode = req.City[1]
+		entity.DistrictCode = req.City[2]
+	}
+
+	// 密码
+	if req.Password != "" {
+		password, _ := utils.Md5(req.Password + req.Username)
+		entity.Password = password
+	}
 
 	// 插入数据
 	result, err := dao.Member.Insert(entity)
@@ -150,9 +171,6 @@ func (s *memberService) Update(req *model.MemberUpdateReq, userId int) (int64, e
 	info.Nickname = req.Nickname
 	info.Gender = req.Gender
 	info.Birthday = req.Birthday
-	info.ProvinceCode = req.ProvinceCode
-	info.CityCode = req.CityCode
-	info.DistrictCode = req.DistrictCode
 	info.Address = req.Address
 	info.Intro = req.Intro
 	info.Signature = req.Signature
@@ -163,11 +181,26 @@ func (s *memberService) Update(req *model.MemberUpdateReq, userId int) (int64, e
 	info.UpdateTime = gtime.Now()
 
 	// 头像处理
-	avatar, err := utils.SaveImage(req.Avatar, "member")
-	if err != nil {
-		return 0, err
+	if req.Avatar != "" {
+		avatar, err := utils.SaveImage(req.Avatar, "member")
+		if err != nil {
+			return 0, err
+		}
+		info.Avatar = avatar
 	}
-	info.Avatar = avatar
+
+	// 省市区处理
+	if len(req.City) == 3 {
+		info.ProvinceCode = req.City[0]
+		info.CityCode = req.City[1]
+		info.DistrictCode = req.City[2]
+	}
+
+	// 密码
+	if req.Password != "" {
+		password, _ := utils.Md5(req.Password + req.Username)
+		info.Password = password
+	}
 
 	// 调用更新方法
 	result, err := dao.Member.Save(info)

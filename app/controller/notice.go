@@ -134,3 +134,25 @@ func (c *noticeCtl) Delete(r *ghttp.Request) {
 		Msg:  "删除成功",
 	})
 }
+
+func (c *noticeCtl) Status(r *ghttp.Request) {
+	var req *model.NoticeStatusReq
+	if err := r.Parse(&req); err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	result, err := service.Notice.Status(req, utils.Uid(r.Session))
+	if err != nil || result == 0 {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 保存成功
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "设置成功",
+	})
+}
