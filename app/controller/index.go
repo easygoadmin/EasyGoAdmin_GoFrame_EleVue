@@ -78,42 +78,29 @@ func (c *indexCtl) Index(r *ghttp.Request) {
 	}
 }
 
-func (c *indexCtl) Main(r *ghttp.Request) {
-	response.BuildTpl(r, "main.html").WriteTpl()
-}
-
 // 个人中心
-func (c *indexCtl) UserInfo(r *ghttp.Request) {
-	if r.Method == "PUT" {
-		// 参数验证
-		var req *model.UserInfoReq
-		if err := r.Parse(&req); err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-		// 更新信息
-		_, err := service.User.UpdateUserInfo(req, r.Session)
-		if err != nil {
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: -1,
-				Msg:  err.Error(),
-			})
-		}
-
-		// 返回结果
+func (c *indexCtl) UpdateUserInfo(r *ghttp.Request) {
+	// 参数验证
+	var req *model.UserInfoReq
+	if err := r.Parse(&req); err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "更新成功",
+			Code: -1,
+			Msg:  err.Error(),
 		})
 	}
-	// 获取用户信息
-	userInfo := service.Login.GetProfile(r.Session)
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl":  "user_info.html",
-		"userInfo": userInfo,
+	// 更新信息
+	_, err := service.User.UpdateUserInfo(req, r.Session)
+	if err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "更新成功",
 	})
 }
 

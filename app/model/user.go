@@ -83,12 +83,14 @@ type UserResetPwdReq struct {
 
 // 用户中心
 type UserInfoReq struct {
-	Realname string `p:"realname"      v:"required#真实姓名不能为空"` // 真实姓名
 	Avatar   string `p:"avatar"`                              // 头像
-	Mobile   string `p:"mobile"        v:"required#手机号不能为空"`  // 手机号码
-	Email    string `p:"email"         v:"required#电子邮件不能为空"` // 邮箱地址
-	Address  string `p:"address"`                             // 详细地址
-	Intro    string `p:"intro"`                               // 个人简介
+	Realname string `p:"realname"      v:"required#真实姓名不能为空"` // 真实姓名
+	Nickname string `p:"nickname"      v:"required#昵称不能为空"`   // 昵称
+	Gender   int    `p:"gender"        v:"required#性别不能为空"`   // 性别:1男 2女 3保密
+	Mobile  string `p:"mobile"        v:"required#手机号不能为空"`  // 手机号码
+	Email   string `p:"email"         v:"required#电子邮件不能为空"` // 邮箱地址
+	Address string `p:"address"`                             // 详细地址
+	Intro   string `p:"intro"`                               // 个人简介
 }
 
 // 用户信息Vo

@@ -372,11 +372,25 @@ func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Sess
 	}
 	// 用户ID
 	userId := utils.Uid(session)
+
+	// 头像处理
+	avatar := ""
+	if req.Avatar != "" {
+		image, err := utils.SaveImage(req.Avatar, "user")
+		if err != nil {
+			return 0, err
+		}
+		avatar = image
+	}
+
 	// 更新用户信息
 	result, err := dao.User.Data(g.Map{
+		"avatar":   avatar,
 		"realname": req.Realname,
-		"email":    req.Email,
+		"nickname": req.Nickname,
+		"gender":   req.Gender,
 		"mobile":   req.Mobile,
+		"email":    req.Email,
 		"address":  req.Address,
 		"intro":    req.Intro,
 	}).Where("id", userId).Update()
