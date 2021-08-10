@@ -194,7 +194,7 @@ func (s *menuService) Delete(ids string) (int64, error) {
 	idsArr := convert.ToInt64Array(ids, ",")
 
 	// 判断是否有子级
-	child, err := dao.Menu.Where("pid in (?)", idsArr).Count()
+	child, err := dao.Menu.Where("parent_id in (?)", idsArr).Count()
 	if err != nil {
 		return 0, err
 	}

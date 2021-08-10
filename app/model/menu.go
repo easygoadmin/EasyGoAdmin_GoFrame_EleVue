@@ -30,7 +30,7 @@ type MenuAddReq struct {
 	Title      string `p:"title"       v:"required#菜单名称不能为空"` // 菜单标题
 	Icon       string `p:"icon"        v:"required#菜单图标不能为空"` // 图标
 	Path       string `p:"path"        v:"required#菜单路径不能为空"` // URL地址
-	Component  string `p:"component"   v:"required#菜单组件不能为空"` // 菜单组件
+	Component  string `p:"component"`                         // 菜单组件
 	Target     string `p:"target"`                            // 打开方式：0组件 1内链 2外链
 	Permission string `p:"permission"`                        // 权限标识
 	Type       int    `p:"type"        v:"required#请选择菜单类型""` // 类型：1模块 2导航 3菜单 4节点
@@ -48,7 +48,7 @@ type MenuUpdateReq struct {
 	Title      string `p:"title"       v:"required#菜单名称不能为空"` // 菜单标题
 	Icon       string `p:"icon"        v:"required#菜单图标不能为空"` // 图标
 	Path       string `p:"path"        v:"required#菜单路径不能为空"` // URL地址
-	Component  string `p:"component"   v:"required#菜单组件不能为空"` // 菜单组件
+	Component  string `p:"component"`                         // 菜单组件
 	Target     string `p:"target"`                            // 打开方式：0组件 1内链 2外链
 	Permission string `p:"permission"`                        // 权限标识
 	Type       int    `p:"type"        v:"required#请选择菜单类型""` // 类型：1模块 2导航 3菜单 4节点
