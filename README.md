@@ -33,12 +33,12 @@
 * 系统名称：EasyGoAdmin敏捷开发框架GoFrame+EleVue版本
 * 作者：半城风雨
 * 作者QQ：[1175401194](http://wpa.qq.com/msgrd?v=3&amp;uin=1175401194&amp;site=qq&amp;menu=yes)
-* 官网网址：[http://www.easygoadmin.vip/](http://www.easygoadmin.vip/)
+* 官网网址：[http://www.easygoadmin.vip/](http://easygoadmin.javaweb.vip/)
 * 文档网址：[http://docs.goframe.ele.easygoadmin.vip/](http://docs.goframe.ele.easygoadmin.vip/)
 
 ## 🎨 系统演示
 
-+ 演示地址：http://goframe.elevue.rxthink.cn
++ 演示地址：http://goframe.ele.rxthink.cn
 
 账号 | 密码| 操作权限
 ---|---|---
@@ -73,7 +73,6 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 │   ├── model       // 模型层
 │   └── service     // 服务层
 │   └── utils       // 系统工具
-│   └── widget      // 核心组件
 ├── boot
 ├── config          // 系统配置
 ├── docker
@@ -83,53 +82,10 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 ├── packed
 ├── public          // 资源目录
 ├── router          // 路由
-├── template        // 模板
+├── template        // 自定义模板
 ├── Dockerfile
 ├── go.mod
 └── main.go
-```
-
-## 📚 核心组件
-
-+ 单图上传组件
-```
-{{upload_image "avatar|头像|90x90|建议上传尺寸450x450|450x450" .info.Avatar "" 0}}
-```
-+ 多图上传组件
-```
-{{album "avatar|图集|90x90|20|建议上传尺寸450x450" .info.Avatar "" 0}}
-```
-+ 下拉选择组件
-```
-{{select "gender|1|性别|name|id" "1=男,2=女,3=保密" .info.Gender}}
-```
-+ 单选按钮组件
-```
-{{radio "gender|name|id" "1=男,2=女,3=保密" .info.Gender}}
-```
-+ 复选框组件
-```
-{{checkbox "role_ids|name|id" .roleList .info.RoleIds}}
-```
-+ 城市选择组件
-```
-{{city .info.DistrictCode 3 1}}
-```
-+ 开关组件
-```
-{{switch "status" "在用|禁用" .info.Status}}
-```
-+ 日期组件
-```
-{{date "birthday|1|出生日期|date" .info.Birthday}}
-```
-+ 图标组件
-```
-{{icon "icon" .info.Icon}}
-```
-+ 穿梭组件
-```
-{{transfer "func|0|全部节点,已赋予节点|name|id|220x350" "1=列表,5=添加,10=修改,15=删除,20=详情,25=状态,30=批量删除,35=添加子级,40=全部展开,45=全部折叠" .funcList}}
 ```
 
 ## 🔧 模块展示
@@ -181,8 +137,6 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 ![效果图](./public/uploads/demo/23.png)
 
 ![效果图](./public/uploads/demo/24.png)
-
-![效果图](./public/uploads/demo/25.png)
 
 
 ## 🍻 贡献者名单

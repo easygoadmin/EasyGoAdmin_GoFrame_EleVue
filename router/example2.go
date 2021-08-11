@@ -31,8 +31,6 @@ func init() {
 		group.POST("/add", controller.Example2.Add)
 		group.PUT("/update", controller.Example2.Update)
 		group.DELETE("/delete/:ids", controller.Example2.Delete)
-
 		group.PUT("/status", controller.Example2.Status)
-
 	})
 }
