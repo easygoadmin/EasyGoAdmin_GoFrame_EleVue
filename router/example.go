@@ -19,7 +19,7 @@ import (
 /**
  * 演示一-路由
  * @author 半城风雨
- * @since 2021/08/07
+ * @since 2021/08/11
  * @File : example
  */
 func init() {
@@ -27,13 +27,28 @@ func init() {
 
 	/* 案例演示 */
 	s.Group("example", func(group *ghttp.RouterGroup) {
-		group.GET("/index", controller.Example.Index)
-		group.POST("/list", controller.Example.List)
-		group.GET("/edit", controller.Example.Edit)
+		group.GET("/list", controller.Example.List)
 		group.POST("/add", controller.Example.Add)
-		group.POST("/update", controller.Example.Update)
-		group.POST("/delete", controller.Example.Delete)
-		group.POST("/setStatus", controller.Example.Status)
-		group.POST("/setIsVip", controller.Example.IsVip)
+		group.PUT("/update", controller.Example.Update)
+		group.DELETE("/delete/:ids", controller.Example.Delete)
+
+	
+
+	
+
+	
+
+	
+		group.PUT("/status", controller.Example.Status)
+	
+
+	
+
+	
+		group.PUT("/isVip", controller.Example.IsVip)
+	
+
+	
+
 	})
 }

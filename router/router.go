@@ -242,7 +242,6 @@ func init() {
 
 	/* 代码生成器 */
 	s.Group("generate", func(group *ghttp.RouterGroup) {
-		group.GET("/index", controller.Generate.Index)
 		group.GET("/list", controller.Generate.List)
 		group.POST("/generate", controller.Generate.Generate)
 	})

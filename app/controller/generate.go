@@ -20,8 +20,6 @@ import (
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/util/gconv"
 )
@@ -30,13 +28,6 @@ import (
 var Generate = new(generateCtl)
 
 type generateCtl struct{}
-
-func (c *generateCtl) Index(r *ghttp.Request) {
-	// 渲染模板
-	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-		"mainTpl": "generate/index.html",
-	})
-}
 
 func (c *generateCtl) List(r *ghttp.Request) {
 	// 参数验证
