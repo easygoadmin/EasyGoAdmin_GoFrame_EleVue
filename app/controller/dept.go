@@ -62,7 +62,7 @@ func (c *deptCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.Dept.Add(req, utils.Uid(r.Session))
+	id, err := service.Dept.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -87,7 +87,7 @@ func (c *deptCtl) Update(r *ghttp.Request) {
 	fmt.Println(req)
 
 	// 调用编辑方法
-	result, err := service.Dept.Update(req, utils.Uid(r.Session))
+	result, err := service.Dept.Update(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

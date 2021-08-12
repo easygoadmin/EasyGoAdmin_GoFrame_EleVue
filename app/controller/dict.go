@@ -61,7 +61,7 @@ func (c *dictCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.Dict.Add(req, utils.Uid(r.Session))
+	id, err := service.Dict.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -85,7 +85,7 @@ func (c *dictCtl) Update(r *ghttp.Request) {
 	}
 
 	// 调用修改方法
-	rows, err := service.Dict.Update(req, utils.Uid(r.Session))
+	rows, err := service.Dict.Update(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

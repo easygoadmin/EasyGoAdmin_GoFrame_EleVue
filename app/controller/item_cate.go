@@ -62,7 +62,7 @@ func (c *itemCateCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.ItemCate.Add(req, utils.Uid(r.Session))
+	id, err := service.ItemCate.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -88,7 +88,7 @@ func (c *itemCateCtl) Update(r *ghttp.Request) {
 	}
 
 	// 调用更新方法
-	rows, err := service.ItemCate.Update(req, utils.Uid(r.Session))
+	rows, err := service.ItemCate.Update(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -128,6 +128,7 @@ func (c *itemCateCtl) Delete(r *ghttp.Request) {
 		Msg:  "删除成功",
 	})
 }
+
 //
 //func (c *itemCateCtl) GetCateTreeList(r *ghttp.Request) {
 //	itemId := r.GetQueryInt("item_id")

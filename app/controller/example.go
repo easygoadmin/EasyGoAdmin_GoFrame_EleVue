@@ -64,7 +64,7 @@ func (c *exampleCtl) Add(r *ghttp.Request) {
 		})
 	}
 	// 调用添加方法
-	id, err := service.Example.Add(req, utils.Uid(r.Session))
+	id, err := service.Example.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -88,7 +88,7 @@ func (c *exampleCtl) Update(r *ghttp.Request) {
 		})
 	}
 	// 调用更新方法
-	result, err := service.Example.Update(req, utils.Uid(r.Session))
+	result, err := service.Example.Update(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -133,7 +133,7 @@ func (c *exampleCtl) Status(r *ghttp.Request) {
 			Msg:  err.Error(),
 		})
 	}
-	result, err := service.Example.Status(req, utils.Uid(r.Session))
+	result, err := service.Example.Status(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -155,7 +155,7 @@ func (c *exampleCtl) IsVip(r *ghttp.Request) {
 			Msg:  err.Error(),
 		})
 	}
-	result, err := service.Example.IsVip(req, utils.Uid(r.Session))
+	result, err := service.Example.IsVip(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

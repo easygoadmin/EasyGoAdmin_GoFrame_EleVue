@@ -19,7 +19,7 @@ package controller
 import (
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/response"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/mojocn/base64Captcha"
 )
@@ -49,18 +49,18 @@ func (c *loginCtl) Login(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		//
-		//// 校验验证码
-		//verifyRes := base64Captcha.VerifyCaptcha(req.IdKey, req.Captcha)
-		//if !verifyRes {
-		//	r.Response.WriteJsonExit(common.JsonResult{
-		//		Code: -1,
-		//		Msg:  "验证码不正确",
-		//	})
-		//}
+
+		// 校验验证码
+		verifyRes := base64Captcha.VerifyCaptcha(req.IdKey, req.Captcha)
+		if !verifyRes {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  "验证码不正确",
+			})
+		}
 
 		// 系统登录
-		if err := service.Login.UserLogin(req.UserName, req.Password, r.Session); err != nil {
+		if token, err := service.Login.UserLogin(req.UserName, req.Password, r); err != nil {
 			// 登录错误
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -71,11 +71,12 @@ func (c *loginCtl) Login(r *ghttp.Request) {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: 0,
 				Msg:  "登录成功",
+				Data: g.Map{
+					"access_token": token,
+				},
 			})
 		}
 	}
-	// 渲染模板
-	response.BuildTpl(r, "login.html").WriteTpl()
 }
 
 // 验证码

@@ -68,7 +68,7 @@ func (c *linkCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.Link.Add(req, utils.Uid(r.Session))
+	id, err := service.Link.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -94,7 +94,7 @@ func (c *linkCtl) Update(r *ghttp.Request) {
 	}
 
 	// 调用更新方法
-	rows, err := service.Link.Update(req, utils.Uid(r.Session))
+	rows, err := service.Link.Update(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -143,7 +143,7 @@ func (c *linkCtl) Status(r *ghttp.Request) {
 			Msg:  err.Error(),
 		})
 	}
-	result, err := service.Link.Status(req, utils.Uid(r.Session))
+	result, err := service.Link.Status(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

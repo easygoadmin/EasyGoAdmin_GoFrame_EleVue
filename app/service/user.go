@@ -366,12 +366,10 @@ func (s *userService) ResetPwd(id int, userId int) (int64, error) {
 	return rows, nil
 }
 
-func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Session) (int64, error) {
+func (s *userService) UpdateUserInfo(req *model.UserInfoReq, r *ghttp.Request) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
-	// 用户ID
-	userId := utils.Uid(session)
 
 	// 头像处理
 	avatar := ""
@@ -393,7 +391,7 @@ func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Sess
 		"email":    req.Email,
 		"address":  req.Address,
 		"intro":    req.Intro,
-	}).Where("id", userId).Update()
+	}).Where("id", utils.Uid(r)).Update()
 	if err != nil {
 		return 0, err
 	}
@@ -405,9 +403,9 @@ func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Sess
 	}
 
 	// 获取信息
-	userInfo, _ := dao.User.FindOne("id=?", userId)
+	userInfo, _ := dao.User.FindOne("id=?", utils.Uid(r))
 	// 设置SESSON
-	session.Set("userInfo", userInfo)
+	r.Session.Set("userInfo", userInfo)
 	return rows, nil
 }
 

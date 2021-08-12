@@ -64,7 +64,7 @@ func (c *example2Ctl) Add(r *ghttp.Request) {
 		})
 	}
 	// 调用添加方法
-	id, err := service.Example2.Add(req, utils.Uid(r.Session))
+	id, err := service.Example2.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -88,7 +88,7 @@ func (c *example2Ctl) Update(r *ghttp.Request) {
 		})
 	}
 	// 调用更新方法
-	result, err := service.Example2.Update(req, utils.Uid(r.Session))
+	result, err := service.Example2.Update(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -133,7 +133,7 @@ func (c *example2Ctl) Status(r *ghttp.Request) {
 			Msg:  err.Error(),
 		})
 	}
-	result, err := service.Example2.Status(req, utils.Uid(r.Session))
+	result, err := service.Example2.Status(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

@@ -61,7 +61,7 @@ func (c *cityCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.City.Add(req, utils.Uid(r.Session))
+	id, err := service.City.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -87,7 +87,7 @@ func (c *cityCtl) Update(r *ghttp.Request) {
 	}
 
 	// 调用修改方法
-	rows, err := service.City.Update(req, utils.Uid(r.Session))
+	rows, err := service.City.Update(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

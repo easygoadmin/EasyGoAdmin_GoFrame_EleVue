@@ -68,7 +68,7 @@ func (c *adSortCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.AdSort.Add(req, utils.Uid(r.Session))
+	id, err := service.AdSort.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -94,7 +94,7 @@ func (c *adSortCtl) Update(r *ghttp.Request) {
 	}
 
 	// 调用更新方法
-	rows, err := service.AdSort.Update(req, utils.Uid(r.Session))
+	rows, err := service.AdSort.Update(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

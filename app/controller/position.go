@@ -65,7 +65,7 @@ func (c *positionCtl) Add(r *ghttp.Request) {
 		})
 	}
 	// 调用添加方法
-	id, err := service.Position.Add(req, utils.Uid(r.Session))
+	id, err := service.Position.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -89,7 +89,7 @@ func (c *positionCtl) Update(r *ghttp.Request) {
 		})
 	}
 	// 调用更新方法
-	result, err := service.Position.Update(req, utils.Uid(r.Session))
+	result, err := service.Position.Update(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -135,7 +135,7 @@ func (c *positionCtl) Status(r *ghttp.Request) {
 			Msg:  err.Error(),
 		})
 	}
-	result, err := service.Position.Status(req, utils.Uid(r.Session))
+	result, err := service.Position.Status(req, utils.Uid(r))
 	if err != nil || result == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

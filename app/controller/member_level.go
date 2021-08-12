@@ -69,7 +69,7 @@ func (c *memberLevelCtl) Add(r *ghttp.Request) {
 	}
 
 	// 调用添加方法
-	id, err := service.MemberLevel.Add(req, utils.Uid(r.Session))
+	id, err := service.MemberLevel.Add(req, utils.Uid(r))
 	if err != nil || id == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -95,7 +95,7 @@ func (c *memberLevelCtl) Update(r *ghttp.Request) {
 	}
 
 	// 调用更新方法
-	rows, err := service.MemberLevel.Update(req, utils.Uid(r.Session))
+	rows, err := service.MemberLevel.Update(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

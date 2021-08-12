@@ -3,6 +3,7 @@ module easygoadmin
 go 1.16
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gogf/gf v1.16.1
 	github.com/gogf/swagger v1.2.0
 	github.com/gorilla/websocket v1.4.2 // indirect

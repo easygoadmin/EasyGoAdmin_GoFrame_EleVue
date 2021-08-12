@@ -35,10 +35,8 @@ type indexCtl struct{}
 
 // 获取系统菜单
 func (c *indexCtl) Menu(r *ghttp.Request) {
-	// Jwt获取用户ID
-	userId := 1
 	// 获取菜单列表
-	menuList := service.Menu.GetPermissionList(userId)
+	menuList := service.Menu.GetPermissionList(utils.Uid(r))
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
@@ -49,7 +47,7 @@ func (c *indexCtl) Menu(r *ghttp.Request) {
 
 func (c *indexCtl) User(r *ghttp.Request) {
 	// 获取用户信息
-	userInfo, _ := dao.User.FindOne(utils.Uid(r.Session))
+	userInfo, _ := dao.User.FindOne(utils.Uid(r))
 	// 头像
 	userInfo.Avatar = utils.GetImageUrl(userInfo.Avatar)
 	// 返回结果
@@ -89,7 +87,7 @@ func (c *indexCtl) UpdateUserInfo(r *ghttp.Request) {
 		})
 	}
 	// 更新信息
-	_, err := service.User.UpdateUserInfo(req, r.Session)
+	_, err := service.User.UpdateUserInfo(req, r)
 	if err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
@@ -116,7 +114,7 @@ func (c *indexCtl) UpdatePwd(r *ghttp.Request) {
 	}
 
 	// 调用更新密码方法
-	rows, err := service.User.UpdatePwd(req, utils.Uid(r.Session))
+	rows, err := service.User.UpdatePwd(req, utils.Uid(r))
 	if err != nil || rows == 0 {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
