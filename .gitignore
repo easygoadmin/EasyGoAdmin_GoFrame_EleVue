@@ -22,15 +22,8 @@ go.sum
 
 document/easygoadmin.gf.ele.sql
 app/utils
-app/widget
 
-node_modules/
-src/
-dist/
+.svn
 evui/
 template/tpl/
 app/service/generate.go
-package.json
-package-lock.json
-webpack.config.js
-.svn

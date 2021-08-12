@@ -214,7 +214,8 @@ func init() {
 
 	/* 网站设置 */
 	s.Group("configweb", func(group *ghttp.RouterGroup) {
-		group.ALL("/index", controller.ConfigWeb.Index)
+		group.GET("/index", controller.ConfigWeb.Index)
+		group.PUT("/save", controller.ConfigWeb.Save)
 	})
 
 	/* 会员等级 */
