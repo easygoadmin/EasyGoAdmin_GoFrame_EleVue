@@ -1,0 +1,204 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: {{.author}} <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
+/**
+ * {{.moduleTitle}}管理-服务类
+ * @author {{.author}}
+ * @since {{.since}}
+ * @File : {{.moduleName}}
+ */
+package service
+
+import (
+	"easygoadmin/app/dao"
+	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
+	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/os/gtime"
+)
+
+// 中间件管理服务
+var {{.entityName}} = new({{.moduleName}}Service)
+
+type {{.moduleName}}Service struct{}
+
+func (s *{{.moduleName}}Service) GetList(req *model.{{.entityName}}QueryReq) ([]model.{{.entityName}}InfoVo, int, error) {
+	// 创建查询对象
+	query := dao.{{.entityName}}.Where("mark=1")
+	// 查询条件
+	if req != nil {
+	{{range $key, $val := .queryList}}
+		// {{$val.columnComment}}
+        {{if ne $val.columnValue ""}} 
+		if req.{{$val.columnName2}} > 0 {
+			query = query.Where("{{$val.columnName}} = ?", req.{{$val.columnName2}})
+		}
+        {{else}} 
+		if req.{{$val.columnName2}} != "" {
+			query = query.Where("{{$val.columnName}} like ?", "%"+req.{{$val.columnName2}}+"%")
+		}
+        {{end}}
+	{{end}}
+	}
+	// 获取记录总数
+	count, err := query.Count()
+	if err != nil {
+		return nil, 0, err
+	}
+	// 排序
+	query = query.Order("id asc")
+	// 分页
+	query = query.Page(req.Page, req.Limit)
+	// 对象转换
+	var list []model.{{.entityName}}
+	query.Structs(&list)
+	
+	// 数据处理
+	var result []model.{{.entityName}}InfoVo
+	for _, v := range list {
+		item := model.{{.entityName}}InfoVo{}
+		item.{{.entityName}} = v
+		{{range $key, $val := .columnList}}
+		{{if ne $val.columnImage ""}}
+		// {{$val.columnTitle}}
+		if v.{{$val.columnName2}} != "" {
+			item.{{$val.columnName2}} = utils.GetImageUrl(v.{{$val.columnName2}})
+		}
+		{{end}}
+		{{end}}
+		result = append(result, item)
+	}
+	
+	// 返回结果
+	return result, count, nil
+}
+
+func (s *{{.moduleName}}Service) Add(req *model.{{.entityName}}AddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	
+	// 实例化模型
+	var entity model.{{.entityName}}
+	{{range $key, $val := .columnList}}
+	{{if ne $val.columnImage ""}}// {{$val.columnTitle}}处理
+	if req.{{$val.columnName2}} != "" {
+		{{$val.columnName}}, err := utils.SaveImage(req.{{$val.columnName2}}, "{{$.moduleName}}")
+		if err != nil {
+			return 0, err
+		}
+		entity.{{$val.columnName2}} = {{$val.columnName}}
+	}{{else}}entity.{{$val.columnName2}} = req.{{$val.columnName2}}{{end}}{{end}}
+	entity.CreateUser = userId
+	entity.CreateTime = gtime.Now()
+	entity.Mark = 1
+
+	// 插入数据
+	result, err := dao.{{.entityName}}.Insert(entity)
+	if err != nil {
+		return 0, err
+	}
+
+	// 获取插入ID
+	id, err := result.LastInsertId()
+	if err != nil || id <= 0 {
+		return 0, err
+	}
+	return id, nil
+}
+
+func (s *{{.moduleName}}Service) Update(req *model.{{.entityName}}UpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	// 获取记录信息
+	info, err := dao.{{.entityName}}.FindOne("id=?", req.Id)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+	
+	// 对象赋值
+	{{range $key, $val := .columnList}}
+	{{if ne $val.columnImage ""}}// {{$val.columnTitle}}处理
+	if req.{{$val.columnName2}} != "" {
+		{{$val.columnName}}, err := utils.SaveImage(req.{{$val.columnName2}}, "{{$.moduleName}}")
+		if err != nil {
+			return 0, err
+		}
+		info.{{$val.columnName2}} = {{$val.columnName}}
+	}{{else}}info.{{$val.columnName2}} = req.{{$val.columnName2}}{{end}}{{end}}
+	info.UpdateUser = userId
+	info.UpdateTime = gtime.Now()
+	// 调用更新方法
+	result, err := dao.{{.entityName}}.Save(info)
+	if err != nil {
+		return 0, err
+	}
+	// 获取受影响的行数
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return rows, nil
+}
+
+func (s *{{.moduleName}}Service) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	idsArr := convert.ToInt64Array(ids, ",")
+	result, err := dao.{{.entityName}}.Delete("id in (?)", idsArr)
+	if err != nil {
+		return 0, err
+	}
+	// 获取受影响的行数
+	count, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+{{range $key, $val := .columnList}}
+{{if ne $val.columnSwitch ""}}
+func (s *{{$.moduleName}}Service) {{$val.columnName2}}(req *model.{{$.entityName}}{{$val.columnName2}}Req, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	info, err := dao.{{$.entityName}}.FindOne("id=?", req.Id)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+
+	// 设置{{$val.columnTitle}}
+	result, err := dao.{{$.entityName}}.Data(g.Map{
+		"{{$val.columnName}}":      req.{{$val.columnName2}},
+		"update_user": userId,
+		"update_time": gtime.Now(),
+	}).Where(dao.{{$.entityName}}.Columns.Id, info.Id).Update()
+	if err != nil {
+		return 0, err
+	}
+	res, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return res, nil
+}
+{{end}}
+{{end}}
+
