@@ -24,6 +24,7 @@ import (
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/function"
 	"easygoadmin/app/utils/response"
+	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -36,6 +37,7 @@ type indexCtl struct{}
 // 获取系统菜单
 func (c *indexCtl) Menu(r *ghttp.Request) {
 	// 获取菜单列表
+	fmt.Println(utils.Uid(r))
 	menuList := service.Menu.GetPermissionList(utils.Uid(r))
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
