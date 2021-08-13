@@ -21,9 +21,7 @@ main
 go.sum
 
 document/easygoadmin.gf.ele.sql
-app/utils
 
 .svn
 evui/
-template/tpl/
-app/service/generate.go
+template/
