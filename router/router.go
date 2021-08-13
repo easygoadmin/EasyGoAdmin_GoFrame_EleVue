@@ -29,6 +29,8 @@ func init() {
 	s.Use(middleware.CORS)
 	// 登录验证中间件
 	s.Use(middleware.CheckLogin)
+	// 日志中间件
+	s.Use(middleware.OperLog)
 
 	/* 文件上传 */
 	s.Group("/upload", func(group *ghttp.RouterGroup) {

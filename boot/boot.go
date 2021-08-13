@@ -2,9 +2,8 @@ package boot
 
 import (
 	_ "easygoadmin/packed"
-	"github.com/gogf/gf/os/gview"
-
 	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/gview"
 	"github.com/gogf/swagger"
 )
 
@@ -14,5 +13,6 @@ func init() {
 	s.Plugin(&swagger.Swagger{})
 
 	gview.Instance().BindFuncMap(gview.FuncMap{
+
 	})
 }
