@@ -118,6 +118,12 @@ func init() {
 		group.DELETE("/delete/:ids", controller.Menu.Delete)
 	})
 
+	/* 操作日志 */
+	s.Group("operlog", func(group *ghttp.RouterGroup) {
+		group.GET("/list", controller.OperLog.List)
+		group.DELETE("/delete/:ids", controller.OperLog.Delete)
+	})
+
 	/* 城市管理 */
 	s.Group("city", func(group *ghttp.RouterGroup) {
 		group.GET("/list", controller.City.List)

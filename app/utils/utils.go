@@ -17,6 +17,8 @@
 package utils
 
 import (
+	"easygoadmin/app/dao"
+	"easygoadmin/app/model"
 	"fmt"
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/errors/gerror"
@@ -197,6 +199,18 @@ func Uid(r *ghttp.Request) int {
 	}
 	// 查询用户信息
 	return claim.UserId
+}
+
+// 获取用户信息
+func UInfo(r *ghttp.Request) *model.User {
+	// 获取用户ID
+	userId := Uid(r)
+	// 查询用户信息
+	info, err := dao.User.FindOne(userId)
+	if err != nil {
+		return nil
+	}
+	return info
 }
 
 // 获取数据库表
