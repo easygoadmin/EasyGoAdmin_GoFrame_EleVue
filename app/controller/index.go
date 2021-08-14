@@ -133,9 +133,9 @@ func (c *indexCtl) UpdatePwd(r *ghttp.Request) {
 
 // 退出登录
 func (c *indexCtl) Logout(r *ghttp.Request) {
-	// 设置SESSION为空
-	r.Session.Set("userId", "")
-	r.Session.Set("userInfo", "")
-	// 重定向至登录页面
-	r.Response.RedirectTo("/login")
+	// 返回退出成功标识
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "退出成功",
+	})
 }

@@ -20,7 +20,7 @@ func OperLog(r *ghttp.Request) {
 	// 后置中间件
 	r.Middleware.Next()
 	// 中间件处理逻辑
-	fmt.Println("日志处理")
+	fmt.Println("操作日志中间件")
 
 	// 分析请求URL地址
 	urlArr := gstr.Split(r.URL.String(), "?")

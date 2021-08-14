@@ -29,8 +29,10 @@ func init() {
 	s.Use(middleware.CORS)
 	// 登录验证中间件
 	s.Use(middleware.CheckLogin)
-	// 日志中间件
+	// 操作日志中间件
 	s.Use(middleware.OperLog)
+	// 登录日志中间件
+	s.Use(middleware.LoginLog)
 
 	/* 文件上传 */
 	s.Group("/upload", func(group *ghttp.RouterGroup) {
@@ -121,7 +123,12 @@ func init() {
 	/* 操作日志 */
 	s.Group("operlog", func(group *ghttp.RouterGroup) {
 		group.GET("/list", controller.OperLog.List)
-		group.DELETE("/delete/:ids", controller.OperLog.Delete)
+	})
+
+	/* 登录日志 */
+	s.Group("loginlog", func(group *ghttp.RouterGroup) {
+		group.GET("/list", controller.LoginLog.List)
+		group.DELETE("/delete/:ids", controller.LoginLog.Delete)
 	})
 
 	/* 城市管理 */

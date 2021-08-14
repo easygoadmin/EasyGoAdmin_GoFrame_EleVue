@@ -45,7 +45,3 @@ func (c *operLogCtl) List(r *ghttp.Request) {
 		Count: count,
 	})
 }
-
-func (c *operLogCtl) Delete(r *ghttp.Request) {
-
-}
