@@ -36,7 +36,7 @@ type LoginLogColumns struct {
     RequestParam  string // 请求参数                                           
     Browser       string // 浏览器                                             
     Result        string // 返回参数                                           
-    Status        string // 登录状态：0成功 1失败                              
+    Status        string // 操作状态：0操作成功 1操作失败                      
     Type          string // 操作类型：1登录成功 2登录失败 3注销成功 2注销失败  
     UserAgent     string // 代理信息                                           
     Note          string // 备注                                               

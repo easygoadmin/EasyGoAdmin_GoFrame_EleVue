@@ -26,6 +26,7 @@ const (
 	BDel   BunissType = 3 //3删除
 )
 
+// 返回结果对象
 type JsonResult struct {
 	Code  int         `json:"code"`  // 响应编码：0成功 401请登录 403无权限 500错误
 	Msg   string      `json:"msg"`   // 消息提示语
@@ -34,6 +35,7 @@ type JsonResult struct {
 	Btype BunissType  `json:"btype"` // 业务类型
 }
 
+// 验证码
 type CaptchaRes struct {
 	Code  int         `json:"code"`  //响应编码 0 成功 500 错误 403 无权限
 	Msg   string      `json:"msg"`   //消息

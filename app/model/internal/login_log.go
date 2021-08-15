@@ -20,7 +20,7 @@ type LoginLog struct {
     RequestParam string      `orm:"request_param" json:"requestParam"` // 请求参数                                           
     Browser      string      `orm:"browser"       json:"browser"`      // 浏览器                                             
     Result       string      `orm:"result"        json:"result"`       // 返回参数                                           
-    Status       uint        `orm:"status"        json:"status"`       // 登录状态：0成功 1失败                              
+    Status       uint        `orm:"status"        json:"status"`       // 操作状态：0操作成功 1操作失败                      
     Type         uint        `orm:"type"          json:"type"`         // 操作类型：1登录成功 2登录失败 3注销成功 2注销失败  
     UserAgent    string      `orm:"user_agent"    json:"userAgent"`    // 代理信息                                           
     Note         string      `orm:"note"          json:"note"`         // 备注                                               

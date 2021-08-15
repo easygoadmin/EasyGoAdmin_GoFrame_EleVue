@@ -115,6 +115,7 @@ func init() {
 	/* 菜单管理 */
 	s.Group("menu", func(group *ghttp.RouterGroup) {
 		group.GET("/list", controller.Menu.List)
+		group.GET("/detail", controller.Menu.Detail)
 		group.POST("/add", controller.Menu.Add)
 		group.PUT("/update", controller.Menu.Update)
 		group.DELETE("/delete/:ids", controller.Menu.Delete)

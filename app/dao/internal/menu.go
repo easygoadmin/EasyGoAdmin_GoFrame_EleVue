@@ -35,6 +35,7 @@ type MenuColumns struct {
     Target      string // 打开方式：0组件 1内链 2外链  
     Permission  string // 权限标识                     
     Type        string // 类型：0菜单 1节点            
+    Method      string // 请求方式                     
     Status      string // 状态：1正常 2禁用            
     Hide        string // 是否可见：1是 2否            
     Note        string // 备注                         
@@ -62,6 +63,7 @@ var (
             Target:     "target",       
             Permission: "permission",   
             Type:       "type",         
+            Method:     "method",       
             Status:     "status",       
             Hide:       "hide",         
             Note:       "note",         

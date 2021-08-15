@@ -17,11 +17,13 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/util/gutil"
 )
 
 var Menu = new(menuCtl)
@@ -46,6 +48,42 @@ func (c *menuCtl) List(r *ghttp.Request) {
 		Data: list,
 		Msg:  "操作成功",
 	})
+}
+
+func (c *menuCtl) Detail(r *ghttp.Request) {
+	// 查询记录
+	id := r.GetQueryInt64("id")
+	if id > 0 {
+		info, err := dao.Menu.FindOne("id=?", id)
+		if err != nil || info == nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		// 菜单信息
+		menu := model.MenuInfoVo{}
+		menu.Menu = *info
+		// 获取权限节点
+		if info.Type == 0 {
+			// 获取角色菜单权限列表
+			var menuList []model.Menu
+			dao.Menu.Where("parent_id=?", info.Id).Where("type=1").Where("mark=1").Structs(&menuList)
+			checkedList := gutil.ListItemValuesUnique(&menuList, "Sort")
+			if len(checkedList) > 0 {
+				menu.CheckedList = checkedList
+			} else {
+				menu.CheckedList = make([]interface{}, 0)
+			}
+		}
+
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "查询成功",
+			Data: menu,
+		})
+	}
 }
 
 func (c *menuCtl) Add(r *ghttp.Request) {

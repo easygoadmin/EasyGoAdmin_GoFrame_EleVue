@@ -22,9 +22,9 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"errors"
-	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
 	"reflect"
 	"strings"
@@ -137,7 +137,7 @@ func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Path, gconv.Int(id), userId)
+	setPermission(req.Type, req.CheckedList, req.Title, req.Path, gconv.Int(id), userId)
 
 	return id, nil
 }
@@ -154,7 +154,6 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	if info == nil {
 		return 0, gerror.New("记录不存在")
 	}
-	fmt.Println(req)
 	// 设置参数值
 	info.Title = req.Title
 	info.Icon = req.Icon
@@ -176,7 +175,7 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Path, req.Id, userId)
+	setPermission(req.Type, req.CheckedList, req.Title, req.Path, req.Id, userId)
 
 	// 获取数影响的行数
 	rows, err := result.RowsAffected()
@@ -217,67 +216,98 @@ func (s *menuService) Delete(ids string) (int64, error) {
 }
 
 // 添加节点
-func setPermission(menuType int, funcIds string, url string, pid int, userId int) {
-	if menuType != 0 || funcIds == "" || url == "" {
+func setPermission(menuType int, checkedList []int, name string, url string, parentId int, userId int) {
+	if menuType != 0 || len(checkedList) == 0 || url == "" {
 		return
 	}
 	// 删除现有节点
-	dao.Menu.Delete("pid=?", pid)
-
+	dao.Menu.Delete("parent_id=?", parentId)
+	// 模块名称
+	moduleTitle := gstr.Replace(name, "管理", "")
 	// 创建权限节点
 	urlArr := strings.Split(url, "/")
-	if len(urlArr) == 3 {
+
+	if len(urlArr) >= 3 {
 		// 模块名
-		moduleName := urlArr[1]
+		moduleName := urlArr[len(urlArr)-1]
 		// 节点处理
-		funcArr := strings.Split(funcIds, ",")
-		for _, v := range funcArr {
+		for _, v := range checkedList {
 			// 实例化对象
 			var entity model.Menu
 			// 节点索引
 			value := gconv.Int(v)
 			if value == 1 {
-				entity.Title = "列表"
+				entity.Title = "查询列表"
 				entity.Path = "/" + moduleName + "/list"
 				entity.Permission = "sys:" + moduleName + ":list"
+				entity.Method = "GET"
 			} else if value == 5 {
-				entity.Title = "添加"
+				entity.Title = "添加" + moduleTitle
 				entity.Path = "/" + moduleName + "/add"
 				entity.Permission = "sys:" + moduleName + ":add"
+				entity.Method = "POST"
 			} else if value == 10 {
-				entity.Title = "修改"
+				entity.Title = "修改" + moduleTitle
 				entity.Path = "/" + moduleName + "/update"
 				entity.Permission = "sys:" + moduleName + ":update"
+				entity.Method = "PUT"
 			} else if value == 15 {
-				entity.Title = "删除"
+				entity.Title = "删除" + moduleTitle
 				entity.Path = "/" + moduleName + "/delete"
 				entity.Permission = "sys:" + moduleName + ":delete"
+				entity.Method = "DELETE"
 			} else if value == 20 {
-				entity.Title = "详情"
+				entity.Title = moduleTitle + "详情"
 				entity.Path = "/" + moduleName + "/detail"
 				entity.Permission = "sys:" + moduleName + ":detail"
+				entity.Method = "GET"
 			} else if value == 25 {
-				entity.Title = "状态"
+				entity.Title = "设置状态"
 				entity.Path = "/" + moduleName + "/status"
 				entity.Permission = "sys:" + moduleName + ":status"
+				entity.Method = "PUT"
 			} else if value == 30 {
 				entity.Title = "批量删除"
 				entity.Path = "/" + moduleName + "/dall"
 				entity.Permission = "sys:" + moduleName + ":dall"
+				entity.Method = "DELETE"
 			} else if value == 35 {
 				entity.Title = "添加子级"
 				entity.Path = "/" + moduleName + "/addz"
 				entity.Permission = "sys:" + moduleName + ":addz"
+				entity.Method = "POST"
 			} else if value == 40 {
 				entity.Title = "全部展开"
 				entity.Path = "/" + moduleName + "/expand"
 				entity.Permission = "sys:" + moduleName + ":expand"
+				entity.Method = "GET"
 			} else if value == 45 {
 				entity.Title = "全部折叠"
 				entity.Path = "/" + moduleName + "/collapse"
 				entity.Permission = "sys:" + moduleName + ":collapse"
+				entity.Method = "GET"
+			} else if value == 50 {
+				entity.Title = "导出" + moduleTitle
+				entity.Path = "/" + moduleName + "/export"
+				entity.Permission = "sys:" + moduleName + ":export"
+				entity.Method = "GET"
+			} else if value == 55 {
+				entity.Title = "导入" + moduleTitle
+				entity.Path = "/" + moduleName + "/import"
+				entity.Permission = "sys:" + moduleName + ":import"
+				entity.Method = "GET"
+			} else if value == 60 {
+				entity.Title = "分配权限"
+				entity.Path = "/" + moduleName + "/permission"
+				entity.Permission = "sys:" + moduleName + ":permission"
+				entity.Method = "POST"
+			} else if value == 65 {
+				entity.Title = "重置密码"
+				entity.Path = "/" + moduleName + "/resetPwd"
+				entity.Permission = "sys:" + moduleName + ":resetPwd"
+				entity.Method = "PUT"
 			}
-			entity.ParentId = pid
+			entity.ParentId = parentId
 			entity.Type = 1
 			entity.Status = 1
 			entity.Target = "_self"

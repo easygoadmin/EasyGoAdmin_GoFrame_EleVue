@@ -669,7 +669,7 @@ func GeneratePermission(modelName string, modelTitle string, userId int) error {
 	entity.Component = entity.Path
 	entity.ParentId = 164
 	entity.Type = 0
-	entity.Permission = "sys:" + modelName + ":index"
+	entity.Permission = "sys:" + modelName + ":view"
 	entity.Status = 1
 	entity.Target = "_self"
 	entity.Sort = 10
@@ -736,42 +736,49 @@ func GeneratePermission(modelName string, modelTitle string, userId int) error {
 		item.CreateTime = gtime.Now()
 		item.Mark = 1
 
-		// 常规节点
+		// 权限节点
 		if v == 1 {
 			// 列表
 			item.Title = "查询" + modelTitle
 			item.Path = "/" + modelName + "/list"
 			item.Permission = "sys:" + modelName + ":list"
+			item.Method = "GET"
 		} else if v == 5 {
 			// 添加
 			item.Title = "添加" + modelTitle
 			item.Path = "/" + modelName + "/add"
 			item.Permission = "sys:" + modelName + ":add"
+			item.Method = "POST"
 		} else if v == 10 {
 			// 修改
 			item.Title = "修改" + modelTitle
 			item.Path = "/" + modelName + "/update"
 			item.Permission = "sys:" + modelName + ":update"
+			item.Method = "PUT"
 		} else if v == 15 {
 			// 删除
 			item.Title = "删除" + modelTitle
 			item.Path = "/" + modelName + "/delete"
 			item.Permission = "sys:" + modelName + ":delete"
+			item.Method = "DELETE"
 		} else if v == 20 {
 			// 详情
 			item.Title = modelTitle + "详情"
 			item.Path = "/" + modelName + "/detail"
 			item.Permission = "sys:" + modelName + ":detail"
+			item.Method = "GET"
 		} else if v == 25 {
 			// 状态
 			item.Title = "设置状态"
 			item.Path = "/" + modelName + "/status"
 			item.Permission = "sys:" + modelName + ":status"
+			item.Method = "PUT"
 		} else if v == 30 {
 			// 批量删除
 			item.Title = "批量删除"
 			item.Path = "/" + modelName + "/dall"
 			item.Permission = "sys:" + modelName + ":dall"
+			item.Method = "DELETE"
 		}
 
 		// 插入数据
