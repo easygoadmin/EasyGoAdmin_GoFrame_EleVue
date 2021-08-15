@@ -85,7 +85,7 @@ func OperLog(r *ghttp.Request) {
 	entity.Username = utils.UInfo(r).Username
 	entity.OperUrl = r.URL.String()
 	entity.OperIp = r.GetClientIp()
-	entity.OperLocation = utils.GetIpCity(r.GetClientIp())
+	entity.OperLocation = utils.GetIpCity(entity.OperIp)
 	entity.RequestParam = string(r.GetBody())
 	entity.Status = 0
 	entity.UserAgent = r.UserAgent()

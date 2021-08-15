@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gtime"
-	"runtime"
+	"github.com/mssola/user_agent"
 )
 
 func LoginLog(r *ghttp.Request) {
@@ -36,16 +36,22 @@ func LoginLog(r *ghttp.Request) {
 	// 记录登录、退出日志
 	urlItem := []string{"/login", "/logout"}
 	if utils.InStringArray(r.RequestURI, urlItem) {
+
+		// 获取浏览器信息
+		userAgent := r.Header.Get("User-Agent")
+		ua := user_agent.New(userAgent)
+
 		// 实例化对象
 		var entity model.LoginLog
 		entity.Method = r.Method
 		entity.OperUrl = r.URL.String()
 		entity.OperIp = r.GetClientIp()
-		entity.OperLocation = utils.GetIpCity(r.GetClientIp())
+		entity.OperLocation = utils.GetIpCity(entity.OperIp)
 		entity.RequestParam = string(r.GetBody())
 		entity.Status = 0
 		// 操作系统
-		entity.Os = runtime.GOOS
+		entity.Os = ua.OS()
+		entity.Browser, _ = ua.Browser()
 		entity.UserAgent = r.UserAgent()
 		entity.CreateTime = gtime.Now()
 		entity.Mark = 1
