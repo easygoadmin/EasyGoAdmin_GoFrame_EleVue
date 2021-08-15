@@ -237,7 +237,7 @@ func setPermission(menuType int, checkedList []int, name string, url string, par
 			// 节点索引
 			value := gconv.Int(v)
 			if value == 1 {
-				entity.Title = "查询列表"
+				entity.Title = "查询" + moduleTitle
 				entity.Path = "/" + moduleName + "/list"
 				entity.Permission = "sys:" + moduleName + ":list"
 				entity.Method = "GET"
