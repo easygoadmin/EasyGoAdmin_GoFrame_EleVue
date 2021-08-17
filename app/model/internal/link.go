@@ -21,6 +21,7 @@ type Link struct {
     Image      string      `orm:"image"       json:"image"`      // 友链图片                                 
     Status     int         `orm:"status"      json:"status"`     // 状态：1在用 2停用                        
     Sort       int         `orm:"sort"        json:"sort"`       // 显示顺序                                 
+    Note       string      `orm:"note"        json:"note"`       // 备注                                     
     CreateUser int         `orm:"create_user" json:"createUser"` // 添加人                                   
     CreateTime *gtime.Time `orm:"create_time" json:"createTime"` // 添加时间                                 
     UpdateUser int         `orm:"update_user" json:"updateUser"` // 更新人                                   

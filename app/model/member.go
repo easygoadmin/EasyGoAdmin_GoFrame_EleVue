@@ -17,6 +17,7 @@ type Member internal.Member
 // 分页查询条件
 type MemberPageReq struct {
 	Username string `p:"username"` // 用户名
+	Gender   int    `p:"gender"`   // 性别（1男 2女 3未知）
 	Page     int    `p:page`       // 页码
 	Limit    int    `p:limit`      // 每页数
 }

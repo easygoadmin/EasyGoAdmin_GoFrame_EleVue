@@ -41,6 +41,10 @@ func (s *memberService) GetList(req *model.MemberPageReq) ([]model.MemberInfoVo,
 		if req.Username != "" {
 			query = query.Where("username=?", req.Username)
 		}
+		// 性别
+		if req.Gender > 0 {
+			query = query.Where("gender=?", req.Gender)
+		}
 	}
 	// 查询记录总数
 	count, err := query.Count()

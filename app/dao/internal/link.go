@@ -37,6 +37,7 @@ type LinkColumns struct {
     Image       string // 友链图片                                 
     Status      string // 状态：1在用 2停用                        
     Sort        string // 显示顺序                                 
+    Note        string // 备注                                     
     CreateUser  string // 添加人                                   
     CreateTime  string // 添加时间                                 
     UpdateUser  string // 更新人                                   
@@ -62,6 +63,7 @@ var (
             Image:      "image",        
             Status:     "status",       
             Sort:       "sort",         
+            Note:       "note",         
             CreateUser: "create_user",  
             CreateTime: "create_time",  
             UpdateUser: "update_user",  

@@ -107,6 +107,7 @@ func (s *linkService) Add(req *model.LinkAddReq, userId int) (int64, error) {
 	entity.Form = req.Form
 	entity.Status = req.Status
 	entity.Sort = req.Sort
+	entity.Note = req.Note
 	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
@@ -164,6 +165,7 @@ func (s *linkService) Update(req *model.LinkUpdateReq, userId int) (int64, error
 	info.Form = req.Form
 	info.Status = req.Status
 	info.Sort = req.Sort
+	info.Note = req.Note
 	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 

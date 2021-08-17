@@ -88,7 +88,7 @@ func (s *itemService) Add(req *model.ItemAddReq, userId int) (int64, error) {
 	entity.Type = req.Type
 	entity.Url = req.Url
 	entity.Status = req.Status
-	entity.Note = req.Name
+	entity.Note = req.Note
 	entity.Sort = req.Status
 	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
@@ -133,7 +133,7 @@ func (s *itemService) Update(req *model.ItemUpdateReq, userId int) (int64, error
 	info.Type = req.Type
 	info.Url = req.Url
 	info.Status = req.Status
-	info.Note = req.Name
+	info.Note = req.Note
 	info.Sort = req.Status
 
 	// 图片处理

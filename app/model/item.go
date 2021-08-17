@@ -38,7 +38,7 @@ type ItemAddReq struct {
 	Sort   int    `p:"sort"        v:"required#站点排序号不能为空"` // 显示顺序
 }
 
-// 添加站点
+// 更新站点
 type ItemUpdateReq struct {
 	Id     int    `p:"id" v:"required#主键ID不能为空"`
 	Name   string `p:"name"        v:"required#站点名称不能为空"`  // 站点名称

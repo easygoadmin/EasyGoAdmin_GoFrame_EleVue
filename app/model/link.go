@@ -29,11 +29,12 @@ type LinkAddReq struct {
 	Url      string `p:"url"`                               // 友链地址
 	ItemId   int    `p:"item_id"`                           // 站点ID
 	CateId   int    `p:"cate_id"`                           // 栏目ID
-	Platform int    `p"platform"    v:"required#请选择投放平台"`   // 平台：1PC站 2WAP站 3微信小程序 4APP应用
-	Form     int    `p"form"        v:"required#请选择友链形式"`   // 友链形式：1文字链接 2图片链接
-	Image    string `p"image"`                              // 友链图片
-	Status   int    `p"status"      v:"required#请选择友链状态"`   // 状态：1在用 2停用
-	Sort     int    `p"sort"        v:"required#排序号不能为空"`   // 显示顺序
+	Platform int    `p:"platform"    v:"required#请选择投放平台"`  // 平台：1PC站 2WAP站 3微信小程序 4APP应用
+	Form     int    `p:"form"        v:"required#请选择友链形式"`  // 友链形式：1文字链接 2图片链接
+	Image    string `p:"image"`                             // 友链图片
+	Status   int    `p:"status"      v:"required#请选择友链状态"`  // 状态：1在用 2停用
+	Sort     int    `p:"sort"        v:"required#排序号不能为空"`  // 显示顺序
+	Note     string `p:"note"`                              // 备注
 }
 
 // 修改友链
@@ -44,11 +45,12 @@ type LinkUpdateReq struct {
 	Url      string `p:"url"`                               // 友链地址
 	ItemId   int    `p:"item_id"`                           // 站点ID
 	CateId   int    `p:"cate_id"`                           // 栏目ID
-	Platform int    `p"platform"    v:"required#请选择投放平台"`   // 平台：1PC站 2WAP站 3微信小程序 4APP应用
-	Form     int    `p"form"        v:"required#请选择友链形式"`   // 友链形式：1文字链接 2图片链接
-	Image    string `p"image"`                              // 友链图片
-	Status   int    `p"status"      v:"required#请选择友链状态"`   // 状态：1在用 2停用
-	Sort     int    `p"sort"        v:"required#排序号不能为空"`   // 显示顺序
+	Platform int    `p:"platform"    v:"required#请选择投放平台"`  // 平台：1PC站 2WAP站 3微信小程序 4APP应用
+	Form     int    `p:"form"        v:"required#请选择友链形式"`  // 友链形式：1文字链接 2图片链接
+	Image    string `p:"image"`                             // 友链图片
+	Status   int    `p:"status"      v:"required#请选择友链状态"`  // 状态：1在用 2停用
+	Sort     int    `p:"sort"        v:"required#排序号不能为空"`  // 显示顺序
+	Note     string `p:"note"`                              // 备注
 }
 
 // 删除友链
