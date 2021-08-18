@@ -110,14 +110,16 @@ func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 	}
 	// 实例化对象
 	var entity model.Menu
+	entity.ParentId = req.ParentId
 	entity.Title = req.Title
 	entity.Icon = req.Icon
 	entity.Path = req.Path
-	entity.ParentId = req.ParentId
-	entity.Type = req.Type
-	entity.Permission = req.Permission
-	entity.Status = req.Status
+	entity.Component = req.Component
 	entity.Target = req.Target
+	entity.Permission = req.Permission
+	entity.Type = req.Type
+	entity.Status = req.Status
+	entity.Hide = req.Hide
 	entity.Note = req.Note
 	entity.Sort = req.Sort
 	entity.CreateUser = userId
@@ -155,14 +157,16 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 		return 0, gerror.New("记录不存在")
 	}
 	// 设置参数值
+	info.ParentId = req.ParentId
 	info.Title = req.Title
 	info.Icon = req.Icon
 	info.Path = req.Path
-	info.ParentId = req.ParentId
-	info.Type = req.Type
-	info.Permission = req.Permission
-	info.Status = req.Status
+	info.Component = req.Component
 	info.Target = req.Target
+	info.Permission = req.Permission
+	info.Type = req.Type
+	info.Status = req.Status
+	info.Hide = req.Hide
 	info.Note = req.Note
 	info.Sort = req.Sort
 	info.UpdateUser = userId

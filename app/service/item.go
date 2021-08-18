@@ -39,7 +39,7 @@ func (s *itemService) GetList(req *model.ItemPageReq) ([]model.ItemInfoVo, int, 
 	if req != nil {
 		// 站点名称
 		if req.Name != "" {
-			query = query.Where("name like %?%", req.Name)
+			query = query.Where("name like ?", "%"+req.Name+"%")
 		}
 		// 站点类型
 		if req.Type > 0 {
