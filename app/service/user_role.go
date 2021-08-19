@@ -26,7 +26,7 @@ var UserRole = new(userRoleService)
 type userRoleService struct{}
 
 // 获取用户角色列表
-func (s *userRoleService) getUserRoleList(userId int) []model.Role {
+func (s *userRoleService) GetUserRoleList(userId int) []model.Role {
 	query := dao.Role.As("r").Clone()
 	// 内联查询
 	query = query.InnerJoin("sys_user_role as ur", "r.id=ur.role_id")

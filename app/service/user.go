@@ -105,7 +105,7 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 			item.DeptName = deptMap[v.DeptId]
 		}
 		// 角色列表
-		roleList := UserRole.getUserRoleList(v.Id)
+		roleList := UserRole.GetUserRoleList(v.Id)
 		if len(roleList) > 0 {
 			item.RoleList = roleList
 		} else {
@@ -180,23 +180,23 @@ func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 		return 0, err
 	}
 
+	// 获取插入ID
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
 	// 删除用户角色关系
-	dao.UserRole.Delete("user_id=?", userId)
+	dao.UserRole.Delete("user_id=?", id)
 	// 创建人员角色关系
 	for _, v := range req.RoleIds {
 		if v <= 0 {
 			continue
 		}
 		var userRole model.UserRole
-		userRole.UserId = userId
+		userRole.UserId = gconv.Int(id)
 		userRole.RoleId = gconv.Int(v)
 		dao.UserRole.Insert(userRole)
-	}
-
-	// 获取插入ID
-	id, err := result.LastInsertId()
-	if err != nil {
-		return 0, err
 	}
 	return id, nil
 }
@@ -262,14 +262,14 @@ func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error
 	}
 
 	// 删除用户角色关系
-	dao.UserRole.Delete("user_id=?", userId)
+	dao.UserRole.Delete("user_id=?", info.Id)
 	// 创建人员角色关系
 	for _, v := range req.RoleIds {
 		if v <= 0 {
 			continue
 		}
 		var userRole model.UserRole
-		userRole.UserId = userId
+		userRole.UserId = info.Id
 		userRole.RoleId = gconv.Int(v)
 		dao.UserRole.Insert(userRole)
 	}
