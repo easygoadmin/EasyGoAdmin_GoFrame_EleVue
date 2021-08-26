@@ -59,6 +59,7 @@ func init() {
 	/* 用户管理 */
 	s.Group("user", func(group *ghttp.RouterGroup) {
 		group.GET("/list", controller.User.List)
+		group.GET("/detail", controller.User.Detail)
 		group.POST("/add", controller.User.Add)
 		group.PUT("/update", controller.User.Update)
 		group.DELETE("/delete/:ids", controller.User.Delete)

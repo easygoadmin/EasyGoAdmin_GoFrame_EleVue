@@ -17,6 +17,7 @@
 package controller
 
 import (
+	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
@@ -55,6 +56,49 @@ func (c *userCtl) List(r *ghttp.Request) {
 		Data:  list,
 		Count: count,
 	})
+}
+
+func (c *userCtl) Detail(r *ghttp.Request) {
+	// 记录ID
+	id := r.GetQueryInt("id")
+	if id > 0 {
+		// 编辑
+		info, err := dao.User.FindOne("id=?", id)
+		if err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+
+		var userInfo = model.UserInfoVo{}
+		userInfo.User = *info
+		// 头像
+		userInfo.Avatar = utils.GetImageUrl(info.Avatar)
+		// 角色列表
+		roleList := service.UserRole.GetUserRoleList(info.Id)
+		if len(roleList) > 0 {
+			userInfo.RoleList = roleList
+		} else {
+			userInfo.RoleList = make([]model.Role, 0)
+		}
+		// 省市区
+		cityList := make([]string, 0)
+		// 省份编号
+		cityList = append(cityList, info.ProvinceCode)
+		// 城市编号
+		cityList = append(cityList, info.CityCode)
+		// 县区编号
+		cityList = append(cityList, info.DistrictCode)
+		userInfo.City = cityList
+
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "查询成功",
+			Data: userInfo,
+		})
+	}
 }
 
 func (c *userCtl) Add(r *ghttp.Request) {

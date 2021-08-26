@@ -38,7 +38,7 @@
 ## 👷 开发者信息
 * 系统名称：EasyGoAdmin敏捷开发框架GoFrame+EleVue版本
 * 作者：半城风雨
-* 作者QQ：[1175401194](http://wpa.qq.com/msgrd?v=3&amp;uin=1175401194&amp;site=qq&amp;menu=yes)
+* 作者QQ：[1260211623](http://wpa.qq.com/msgrd?v=3&amp;uin=1260211623&amp;site=qq&amp;menu=yes)
 * 官网网址：[http://www.easygoadmin.vip/](http://easygoadmin.javaweb.vip/)
 * 文档网址：[http://docs.goframe.ele.easygoadmin.vip/](http://docs.goframe.ele.easygoadmin.vip/)
 
@@ -52,7 +52,7 @@ admin | 123456| 演示环境无法进行修改删除操作
 
 ## 👷 技术支持
 
-[技术支持QQ：1175401194](http://wpa.qq.com/msgrd?v=3&amp;uin=1175401194&amp;site=qq&amp;menu=yes)
+[技术支持QQ：1260211623](http://wpa.qq.com/msgrd?v=3&amp;uin=1260211623&amp;site=qq&amp;menu=yes)
 
 ## 📌 版本说明
 版本名称 | 版本说明 | 版本地址
