@@ -15,9 +15,9 @@ type Level internal.Level
 
 // 分页查询条件
 type LevelQueryReq struct {
-	Name  string `p:"name"` // 职级名称
-	Page  int    `p:page`   // 页码
-	Limit int    `p:limit`  // 每页数
+	Name  string `p:"name"`  // 职级名称
+	Page  int    `p:"page"`  // 页码
+	Limit int    `p:"limit"` // 每页数
 }
 
 // 添加职级

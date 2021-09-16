@@ -45,7 +45,6 @@ func init() {
 		group.GET("/", controller.Login.Login)
 		group.ALL("/login", controller.Login.Login)
 		group.GET("/captcha", controller.Login.Captcha)
-		group.GET("/index", controller.Index.Index)
 		group.ALL("/updateUserInfo", controller.Index.UpdateUserInfo)
 		group.ALL("/updatePwd", controller.Index.UpdatePwd)
 		group.GET("/logout", controller.Index.Logout)

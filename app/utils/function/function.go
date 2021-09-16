@@ -17,22 +17,8 @@
 package function
 
 import (
-	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/util/gconv"
 )
-
-// 判断用户登录状态
-func IsLogin(session *ghttp.Session) bool {
-	return session.Contains("userId")
-}
-
-func GetOssUrl() string {
-	v := ""
-	if v == "null" {
-		return ""
-	}
-	return v
-}
 
 // 判断元素是否在数组中
 func InArray(value string, array []interface{}) bool {

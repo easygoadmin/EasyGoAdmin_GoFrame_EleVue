@@ -22,10 +22,6 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
-	"easygoadmin/app/utils/function"
-	"easygoadmin/app/utils/response"
-	"fmt"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
@@ -37,8 +33,7 @@ type indexCtl struct{}
 // 获取系统菜单
 func (c *indexCtl) Menu(r *ghttp.Request) {
 	// 获取菜单列表
-	fmt.Println(utils.Uid(r))
-	menuList := service.Menu.GetPermissionList(utils.Uid(r))
+	menuList := service.Menu.GetPermissionMenuList(utils.Uid(r))
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
@@ -50,32 +45,29 @@ func (c *indexCtl) Menu(r *ghttp.Request) {
 func (c *indexCtl) User(r *ghttp.Request) {
 	// 获取用户信息
 	userInfo, _ := dao.User.FindOne(utils.Uid(r))
-	// 头像
-	userInfo.Avatar = utils.GetImageUrl(userInfo.Avatar)
+	// 用户信息
+	var profile model.ProfileInfoVo
+	profile.Realname = userInfo.Realname
+	profile.Nickname = userInfo.Nickname
+	profile.Avatar = utils.GetImageUrl(userInfo.Avatar)
+	profile.Gender = userInfo.Gender
+	profile.Mobile = userInfo.Mobile
+	profile.Email = userInfo.Email
+	profile.Intro = userInfo.Intro
+	profile.Address = userInfo.Address
+	// 角色
+	profile.Roles = make([]interface{}, 0)
+	// 权限
+	profile.Authorities = make([]interface{}, 0)
+	// 获取权限节点
+	permissionList := service.Menu.GetPermissionsList(utils.Uid(r))
+	profile.PermissionList = permissionList
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
 		Msg:  "操作成功",
-		Data: userInfo,
+		Data: profile,
 	})
-}
-
-func (c *indexCtl) Index(r *ghttp.Request) {
-	if function.IsLogin(r.Session) {
-		// 已登录
-		// 获取用户信息
-		userInfo := service.Login.GetProfile(r.Session)
-		// 获取菜单列表
-		menuList := service.Menu.GetPermissionList(userInfo.Id)
-		// 渲染模板并绑定数据
-		response.BuildTpl(r, "index.html").WriteTpl(g.Map{
-			"userInfo": userInfo,
-			"menuList": menuList,
-		})
-	} else {
-		// 未登录
-		r.Response.RedirectTo("/login")
-	}
 }
 
 // 个人中心

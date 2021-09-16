@@ -16,9 +16,9 @@ type User internal.User
 
 type UserPageReq struct {
 	Realname string `p:"realname"` // 用户姓名
-	Gender   int    `p:gender`     // 性别:1男 2女 3保密
-	Page     int    `p:page`       // 页码
-	Limit    int    `p:limit`      // 每页数
+	Gender   int    `p:"gender"`   // 性别:1男 2女 3保密
+	Page     int    `p:"page"`     // 页码
+	Limit    int    `p:"limit"`    // 每页数
 }
 
 type UserAddReq struct {
@@ -87,10 +87,10 @@ type UserInfoReq struct {
 	Realname string `p:"realname"      v:"required#真实姓名不能为空"` // 真实姓名
 	Nickname string `p:"nickname"      v:"required#昵称不能为空"`   // 昵称
 	Gender   int    `p:"gender"        v:"required#性别不能为空"`   // 性别:1男 2女 3保密
-	Mobile  string `p:"mobile"        v:"required#手机号不能为空"`  // 手机号码
-	Email   string `p:"email"         v:"required#电子邮件不能为空"` // 邮箱地址
-	Address string `p:"address"`                             // 详细地址
-	Intro   string `p:"intro"`                               // 个人简介
+	Mobile   string `p:"mobile"        v:"required#手机号不能为空"`  // 手机号码
+	Email    string `p:"email"         v:"required#电子邮件不能为空"` // 邮箱地址
+	Address  string `p:"address"`                             // 详细地址
+	Intro    string `p:"intro"`                               // 个人简介
 }
 
 // 用户信息Vo
@@ -115,4 +115,21 @@ type UpdatePwd struct {
 // 检查用户
 type CheckUserReq struct {
 	Username string `p:"username"      v:"required#用户名不能为空"` // 用户名
+}
+
+// 个人信息Vo
+type ProfileInfoVo struct {
+	Realname       string        `json:"realname"`       // 真实姓名
+	Nickname       string        `json:"nickname"`       // 昵称
+	Gender         int           `json:"gender"`         // 性别:1男 2女 3保密
+	Avatar         string        `json:"avatar"`         // 头像
+	Mobile         string        `json:"mobile"`         // 手机号码
+	Email          string        `json:"email"`          // 邮箱地址
+	City           []string      `json:"city"`           // 省市区
+	Address        string        `json:"address"`        // 详细地址
+	Intro          string        `json:"intro"`          // 个人简介
+	Roles          []interface{} `json:"roles"`          // 用户角色
+	Authorities    []interface{} `json:"authorities"`    // 用户权限
+	PermissionList []string      `json:"permissionList"` // 权限列表
+
 }

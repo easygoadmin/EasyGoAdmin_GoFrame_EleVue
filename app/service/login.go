@@ -22,7 +22,6 @@ import (
 	"easygoadmin/app/utils"
 	jwt "easygoadmin/app/utils"
 	"errors"
-	"fmt"
 	"github.com/gogf/gf/container/gmap"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
@@ -48,7 +47,7 @@ func (s *loginService) UserLogin(username, password string, r *ghttp.Request) (s
 		return "", errors.New("用户名或者密码不正确")
 	}
 	// 密码校验
-	pwd, _ := utils.Md5(password + user.Username) //gmd5.MustEncryptString(gmd5.MustEncryptString(password + "IgtUdEQJyVevaCxQnY"))
+	pwd, _ := utils.Md5(password + user.Username)
 	if user.Password != pwd {
 		return "", errors.New("密码不正确")
 	}
@@ -66,7 +65,6 @@ func (s *loginService) UserLogin(username, password string, r *ghttp.Request) (s
 
 	// 生成Token
 	token, _ := jwt.GenerateToken(user.Id, user.Username, user.Password)
-	fmt.Println("生成的token:", token)
 
 	// 设置SESSION信息
 	r.Session.Set("userId", user.Id)

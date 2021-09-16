@@ -15,11 +15,11 @@ type Link internal.Link
 
 // 分页查询条件
 type LinkPageReq struct {
-	Name     string `p:"name"`   // 友链名称
-	Type     int    `p:type`     // 友链类型
-	Platform int    `p:platform` // 投放平台
-	Page     int    `p:page`     // 页码
-	Limit    int    `p:limit`    // 每页数
+	Name     string `p:"name"`     // 友链名称
+	Type     int    `p:"type"`     // 友链类型
+	Platform int    `p:"platform"` // 投放平台
+	Page     int    `p:"page"`     // 页码
+	Limit    int    `p:"limit"`    // 每页数
 }
 
 // 添加友链
