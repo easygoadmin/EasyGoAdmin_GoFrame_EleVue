@@ -58,7 +58,7 @@ type AdUpdateReq struct {
 
 // 删除广告
 type AdDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }
 
 // 设置状态
