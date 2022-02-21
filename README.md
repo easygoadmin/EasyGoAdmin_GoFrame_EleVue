@@ -44,7 +44,7 @@
 
 ## 🎨 系统演示
 
-+ 演示地址：http://manage.goframe.elevue.easygoadmin.vip/login
++ 演示地址：http://manage.goframe.elevue.easygoadmin.vip
 
 账号 | 密码| 操作权限
 ---|---|---
