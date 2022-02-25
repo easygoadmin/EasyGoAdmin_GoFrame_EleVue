@@ -20,8 +20,6 @@ main
 .vscode
 go.sum
 
-document/easygoadmin.gf.ele.sql
-
 .svn
 evui/
-template/
+app/service/generate.go
