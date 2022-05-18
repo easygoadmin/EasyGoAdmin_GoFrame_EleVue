@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -14,7 +24,7 @@
 /**
  * 演示二管理-服务类
  * @author 半城风雨
- * @since 2021/08/11
+ * @since 2022/05/17
  * @File : example2
  */
 package service
@@ -39,19 +49,21 @@ func (s *example2Service) GetList(req *model.Example2QueryReq) ([]model.Example2
 	query := dao.Example2.Where("mark=1")
 	// 查询条件
 	if req != nil {
-
+	
 		// 演示名称
-
+         
 		if req.Name != "" {
 			query = query.Where("name like ?", "%"+req.Name+"%")
 		}
-
+        
+	
 		// 状态：1正常 2停用
-
+         
 		if req.Status > 0 {
 			query = query.Where("status = ?", req.Status)
 		}
-
+        
+	
 	}
 	// 获取记录总数
 	count, err := query.Count()
@@ -65,16 +77,22 @@ func (s *example2Service) GetList(req *model.Example2QueryReq) ([]model.Example2
 	// 对象转换
 	var list []model.Example2
 	query.Structs(&list)
-
+	
 	// 数据处理
 	var result []model.Example2InfoVo
 	for _, v := range list {
 		item := model.Example2InfoVo{}
 		item.Example2 = v
-
+		
+		
+		
+		
+		
+		
+		
 		result = append(result, item)
 	}
-
+	
 	// 返回结果
 	return result, count, nil
 }
@@ -83,10 +101,10 @@ func (s *example2Service) Add(req *model.Example2AddReq, userId int) (int64, err
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
-
+	
 	// 实例化模型
 	var entity model.Example2
-
+	
 	entity.Name = req.Name
 	entity.Status = req.Status
 	entity.Sort = req.Sort
@@ -120,9 +138,9 @@ func (s *example2Service) Update(req *model.Example2UpdateReq, userId int) (int6
 	if info == nil {
 		return 0, gerror.New("记录不存在")
 	}
-
+	
 	// 对象赋值
-
+	
 	info.Name = req.Name
 	info.Status = req.Status
 	info.Sort = req.Sort
@@ -158,6 +176,10 @@ func (s *example2Service) Delete(ids string) (int64, error) {
 	return count, nil
 }
 
+
+
+
+
 func (s *example2Service) Status(req *model.Example2StatusReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
@@ -185,3 +207,8 @@ func (s *example2Service) Status(req *model.Example2StatusReq, userId int) (int6
 	}
 	return res, nil
 }
+
+
+
+
+

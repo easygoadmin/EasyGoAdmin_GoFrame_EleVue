@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -14,7 +24,7 @@
 /**
  * 演示一管理-服务类
  * @author 半城风雨
- * @since 2021/08/11
+ * @since 2022/05/17
  * @File : example
  */
 package service
@@ -39,31 +49,35 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInf
 	query := dao.Example.Where("mark=1")
 	// 查询条件
 	if req != nil {
-
+	
 		// 测试名称
-
+         
 		if req.Name != "" {
 			query = query.Where("name like ?", "%"+req.Name+"%")
 		}
-
+        
+	
 		// 状态：1正常 2停用
-
+         
 		if req.Status > 0 {
 			query = query.Where("status = ?", req.Status)
 		}
-
+        
+	
 		// 类型：1京东 2淘宝 3拼多多 4唯品会
-
+         
 		if req.Type > 0 {
 			query = query.Where("type = ?", req.Type)
 		}
-
+        
+	
 		// 是否VIP：1是 2否
-
+         
 		if req.IsVip > 0 {
 			query = query.Where("is_vip = ?", req.IsVip)
 		}
-
+        
+	
 	}
 	// 获取记录总数
 	count, err := query.Count()
@@ -77,21 +91,35 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInf
 	// 对象转换
 	var list []model.Example
 	query.Structs(&list)
-
+	
 	// 数据处理
 	var result []model.ExampleInfoVo
 	for _, v := range list {
 		item := model.ExampleInfoVo{}
 		item.Example = v
-
+		
+		
+		
+		
 		// 头像
 		if v.Avatar != "" {
 			item.Avatar = utils.GetImageUrl(v.Avatar)
 		}
-
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		result = append(result, item)
 	}
-
+	
 	// 返回结果
 	return result, count, nil
 }
@@ -100,10 +128,10 @@ func (s *exampleService) Add(req *model.ExampleAddReq, userId int) (int64, error
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
-
+	
 	// 实例化模型
 	var entity model.Example
-
+	
 	entity.Name = req.Name
 	// 头像处理
 	if req.Avatar != "" {
@@ -148,9 +176,9 @@ func (s *exampleService) Update(req *model.ExampleUpdateReq, userId int) (int64,
 	if info == nil {
 		return 0, gerror.New("记录不存在")
 	}
-
+	
 	// 对象赋值
-
+	
 	info.Name = req.Name
 	// 头像处理
 	if req.Avatar != "" {
@@ -197,6 +225,14 @@ func (s *exampleService) Delete(ids string) (int64, error) {
 	return count, nil
 }
 
+
+
+
+
+
+
+
+
 func (s *exampleService) Status(req *model.ExampleStatusReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
@@ -225,6 +261,10 @@ func (s *exampleService) Status(req *model.ExampleStatusReq, userId int) (int64,
 	return res, nil
 }
 
+
+
+
+
 func (s *exampleService) IsVip(req *model.ExampleIsVipReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
@@ -252,3 +292,8 @@ func (s *exampleService) IsVip(req *model.ExampleIsVipReq, userId int) (int64, e
 	}
 	return res, nil
 }
+
+
+
+
+

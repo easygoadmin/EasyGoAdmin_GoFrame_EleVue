@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -65,14 +75,9 @@ func (s *generateService) GetList(req *model.GeneratePageReq) ([]model.GenerateI
 	return list, nil
 }
 
-func (s *generateService) Generate(r *ghttp.Request) (int64, error) {
+func (s *generateService) Generate(req model.GenerateFileReq, r *ghttp.Request) error {
 	if utils.AppDebug() {
-		return 0, gerror.New("演示环境，暂无权限操作")
-	}
-	// 参数验证
-	var req *model.GenerateFileReq
-	if err := r.Parse(&req); err != nil {
-		return 0, err
+		return gerror.New("演示环境，暂无权限操作")
 	}
 	// 数据表名
 	tableName := req.Name
@@ -94,45 +99,45 @@ func (s *generateService) Generate(r *ghttp.Request) (int64, error) {
 	// 获取字段列表
 	columnList, err := GetColumnList(tableName)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成控制器
 	if err := GenerateController(r, columnList, authorName, moduleName, moduleTitle); err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成控制器
 	if err := GenerateModel(r, columnList, authorName, moduleName, moduleTitle); err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成服务类
 	if err := GenerateService(r, columnList, authorName, moduleName, moduleTitle); err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成模块index.html
 	if err := GenerateIndex(r, columnList, moduleName, moduleTitle); err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成模块edit.html
 	if err := GenerateEdit(r, columnList, moduleName, moduleTitle); err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成菜单权限
 	if err := GeneratePermission(moduleName, moduleTitle, utils.Uid(r)); err != nil {
-		return 0, err
+		return err
 	}
 
 	// 生成路由
 	if err := GenerateRouter(r, columnList, authorName, moduleName, moduleTitle); err != nil {
-		return 0, err
+		return err
 	}
 
-	return 1, nil
+	return nil
 }
 
 // 生成控制器
@@ -660,7 +665,7 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 // 生成菜单和权限
 func GeneratePermission(modelName string, modelTitle string, userId int) error {
 	// 查询记录
-	info, err := dao.Menu.Where("permission", "sys:"+modelName+":index").FindOne()
+	info, err := dao.Menu.Where("permission", "sys:"+modelName+":view").FindOne()
 	if err != nil {
 		return err
 	}

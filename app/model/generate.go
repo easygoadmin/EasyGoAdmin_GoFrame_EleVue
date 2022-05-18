@@ -32,8 +32,13 @@ type GeneratePageReq struct {
 
 // 生成文件
 type GenerateFileReq struct {
-	Name    string `p:"name"`    // 表名称
-	Comment string `p:"comment"` // 表描述
+	Name    string `p:"name" v:"required#数据表名称不能为空"`    // 表名称
+	Comment string `p:"comment" v:"required#数据表描述不能为空"` // 表描述
+}
+
+// 批量生成文件
+type BatchGenerateFileReq struct {
+	Tables string `p:"tables" v:"required#数据表不能为空"` // 表名称
 }
 
 //// 数据表字段信息

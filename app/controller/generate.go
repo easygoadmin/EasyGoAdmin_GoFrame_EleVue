@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -25,6 +35,7 @@ import (
 	"easygoadmin/app/utils/common"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/util/gconv"
+	"strings"
 )
 
 // 控制器管理对象
@@ -61,15 +72,56 @@ func (c *generateCtl) List(r *ghttp.Request) {
 }
 
 func (c *generateCtl) Generate(r *ghttp.Request) {
+	// 生成对象
+	var req model.GenerateFileReq
+	// 参数绑定
+	if err := r.Parse(&req); err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
 	// 调用生成方法
-	count, err := service.Generate.Generate(r)
+	err := service.Generate.Generate(req, r)
 	if err != nil {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,
 			Msg:  err.Error(),
 		})
 	}
+	// 返回结果
+	r.Response.WriteJsonExit(common.JsonResult{
+		Code: 0,
+		Msg:  "生成成功",
+	})
+}
 
+func (c *generateCtl) BatchGenerate(r *ghttp.Request) {
+	// 生成对象
+	var req *model.BatchGenerateFileReq
+	// 参数绑定
+	if err := r.Parse(&req); err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+	// 参数分析
+	tableList := strings.Split(req.Tables, ",")
+	count := 0
+	for _, item := range tableList {
+		itemList := strings.Split(item, "|")
+		// 组装参数对象
+		var param model.GenerateFileReq
+		param.Name = itemList[0]
+		param.Comment = itemList[1]
+		// 调用生成方法
+		err := service.Generate.Generate(param, r)
+		if err != nil {
+			continue
+		}
+		count++
+	}
 	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
 		Code: 0,
